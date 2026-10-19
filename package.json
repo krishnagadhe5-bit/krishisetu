@@ -1,0 +1,39 @@
+{
+  "name": "krishisetu",
+  "version": "1.0.0",
+  "description": "AI-Powered Agricultural Intelligence, Farm Management and Supply Chain Platform",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "dev:ai": "cd ai-service && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload",
+    "build:client": "npm --prefix client run build",
+    "build:server": "npm --prefix server run build",
+    "test:client": "npm --prefix client test",
+    "test:server": "npm --prefix server test",
+    "test:ai": "cd ai-service && pytest",
+    "prisma:generate": "npm --prefix server run prisma:generate",
+    "prisma:migrate": "npm --prefix server run prisma:migrate",
+    "prisma:seed": "npm --prefix server run prisma:seed"
+  },
+  "keywords": [
+    "agriculture",
+    "ai",
+    "farming",
+    "supply-chain",
+    "marketplace",
+    "iot",
+    "react",
+    "express",
+    "fastapi",
+    "prisma",
+    "postgresql"
+  ],
+  "author": "KrishiSetu Engineering",
+  "license": "MIT"
+}

@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: krishisetu_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: krishisetu
+      POSTGRES_PASSWORD: krishisetu_dev
+      POSTGRES_DB: krishisetu
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U krishisetu -d krishisetu"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: krishisetu_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: krishisetu_ai_service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - AI_SERVICE_API_KEY=dev-ai-service-key
+      - LLM_PROVIDER=none
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: krishisetu_server
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://krishisetu:krishisetu_dev@postgres:5432/krishisetu?schema=public
+      - JWT_SECRET=krishisetu_jwt_super_secret_dev_key_2026
+      - CLIENT_ORIGIN=http://localhost:5173
+      - AI_SERVICE_URL=http://ai-service:8000
+      - AI_SERVICE_API_KEY=dev-ai-service-key
+      - REDIS_URL=redis://redis:6379
+      - WEATHER_PROVIDER=mock
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: krishisetu_client
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000/api/v1
+    depends_on:
+      - server
+
+volumes:
+  pgdata:
+  redisdata:

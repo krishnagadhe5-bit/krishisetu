@@ -1,0 +1,104 @@
+{
+  "model_name": "CropRecommendationRandomForest",
+  "version": "v1.0.0",
+  "algorithm": "RandomForestClassifier (100 trees, max_depth 12)",
+  "accuracy": 0.9167,
+  "training_samples": 1200,
+  "test_samples": 300,
+  "features": [
+    "nitrogen",
+    "phosphorus",
+    "potassium",
+    "temperature",
+    "humidity",
+    "ph",
+    "rainfall"
+  ],
+  "target_classes": [
+    "chickpea",
+    "cotton",
+    "onion",
+    "pigeonpeas",
+    "pomegranate",
+    "rice",
+    "soybean",
+    "sugarcane",
+    "tomato",
+    "wheat"
+  ],
+  "classification_report": {
+    "chickpea": {
+      "precision": 0.967741935483871,
+      "recall": 1.0,
+      "f1-score": 0.9836065573770492,
+      "support": 30.0
+    },
+    "cotton": {
+      "precision": 0.9354838709677419,
+      "recall": 0.9666666666666667,
+      "f1-score": 0.9508196721311475,
+      "support": 30.0
+    },
+    "onion": {
+      "precision": 0.6551724137931034,
+      "recall": 0.6333333333333333,
+      "f1-score": 0.6440677966101694,
+      "support": 30.0
+    },
+    "pigeonpeas": {
+      "precision": 1.0,
+      "recall": 0.9666666666666667,
+      "f1-score": 0.9830508474576272,
+      "support": 30.0
+    },
+    "pomegranate": {
+      "precision": 0.9230769230769231,
+      "recall": 0.8,
+      "f1-score": 0.8571428571428571,
+      "support": 30.0
+    },
+    "rice": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 30.0
+    },
+    "soybean": {
+      "precision": 0.967741935483871,
+      "recall": 1.0,
+      "f1-score": 0.9836065573770492,
+      "support": 30.0
+    },
+    "sugarcane": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 30.0
+    },
+    "tomato": {
+      "precision": 0.8181818181818182,
+      "recall": 0.9,
+      "f1-score": 0.8571428571428571,
+      "support": 30.0
+    },
+    "wheat": {
+      "precision": 0.9,
+      "recall": 0.9,
+      "f1-score": 0.9,
+      "support": 30.0
+    },
+    "accuracy": 0.9166666666666666,
+    "macro avg": {
+      "precision": 0.9167398896987329,
+      "recall": 0.9166666666666667,
+      "f1-score": 0.9159437145238757,
+      "support": 300.0
+    },
+    "weighted avg": {
+      "precision": 0.916739889698733,
+      "recall": 0.9166666666666666,
+      "f1-score": 0.9159437145238758,
+      "support": 300.0
+    }
+  }
+}
