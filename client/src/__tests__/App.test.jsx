@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import App from '../App';
 
@@ -23,5 +23,21 @@ describe('KrishiSetu React Frontend Suite', () => {
     render(<App />);
     expect(screen.getByRole('link', { name: /Sign In/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Get Started/i })).toBeInTheDocument();
+  });
+
+  it('renders language switcher with Marathi and Hindi options', () => {
+    render(<App />);
+    const langBtn = screen.getByRole('button', { name: /Select Language/i });
+    expect(langBtn).toBeInTheDocument();
+
+    // Click to open language selector
+    fireEvent.click(langBtn);
+    expect(screen.getByText('मराठी')).toBeInTheDocument();
+    expect(screen.getByText('हिंदी')).toBeInTheDocument();
+
+    // Select Marathi
+    fireEvent.click(screen.getByText('मराठी'));
+    // Verify that navigation switches to Marathi
+    expect(screen.getByText('मुख्यपृष्ठ')).toBeInTheDocument();
   });
 });

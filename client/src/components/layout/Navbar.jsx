@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Sprout, Bell, User, LogOut, Menu, X, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
+import { Sprout, Bell, User, LogOut, Menu, X, ShieldCheck, Globe, ChevronDown, Check } from 'lucide-react';
 import api from '../../services/api';
 
 export const Navbar = ({ onToggleSidebar }) => {
   const { user, isAuthenticated, logout } = useAuth();
+  const { language, setLanguage, t, availableLanguages, currentLanguage } = useLanguage();
   const [notifications, setNotifications] = useState([]);
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
+  const [showLangDropdown, setShowLangDropdown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,32 +58,81 @@ export const Navbar = ({ onToggleSidebar }) => {
             </div>
             <div>
               <span className="text-xl font-bold tracking-tight text-agri-950 flex items-center gap-1.5">
-                KrishiSetu
-                <span className="text-xs px-2 py-0.5 rounded-full bg-agri-100 text-agri-800 font-medium">कृषीसेतू</span>
+                {t('platformName', 'KrishiSetu')}
+                <span className="text-xs px-2 py-0.5 rounded-full bg-agri-100 text-agri-800 font-medium">
+                  {t('platformBadge', 'कृषीसेतू')}
+                </span>
               </span>
-              <p className="text-[10px] text-gray-500 font-medium -mt-1 hidden sm:block">Smart Farming & Supply Chain</p>
+              <p className="text-[10px] text-gray-500 font-medium -mt-1 hidden sm:block">
+                {t('subtitle', 'Smart Farming & Supply Chain')}
+              </p>
             </div>
           </Link>
         </div>
 
-        {/* Center: Main Working Navigation Links (Always visible) */}
+        {/* Center: Main Working Navigation Links */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
           <Link to="/" className="hover:text-agri-700 transition">
-            Home
+            {t('home', 'Home')}
           </Link>
           <Link to="/marketplace" className="hover:text-agri-700 transition">
-            Marketplace
+            {t('marketplace', 'Marketplace')}
           </Link>
           <Link to="/schemes" className="hover:text-agri-700 transition">
-            Govt Schemes
+            {t('govtSchemes', 'Govt Schemes')}
           </Link>
           <Link to="/advisory" className="hover:text-agri-700 transition">
-            Agro Intelligence
+            {t('agroIntelligence', 'Agro Intelligence')}
           </Link>
         </nav>
 
-        {/* Right: Actions */}
-        <div className="flex items-center space-x-3">
+        {/* Right: Language Selector + User Actions */}
+        <div className="flex items-center space-x-2.5 sm:space-x-3">
+          {/* Language Selector Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setShowLangDropdown(!showLangDropdown);
+                setShowNotifDropdown(false);
+              }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 text-xs font-semibold shadow-xs transition"
+              title={t('selectLanguage', 'Select Language')}
+              aria-label={t('selectLanguage', 'Select Language')}
+            >
+              <Globe className="w-3.5 h-3.5 text-agri-600" />
+              <span>{currentLanguage?.flag}</span>
+              <span className="hidden sm:inline-block font-medium">{currentLanguage?.native}</span>
+              <ChevronDown className="w-3 h-3 text-gray-400" />
+            </button>
+
+            {showLangDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2">
+                <div className="px-3 py-1.5 border-b border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                  {t('selectLanguage', 'Select Language')}
+                </div>
+                {availableLanguages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setLanguage(lang.code);
+                      setShowLangDropdown(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-left hover:bg-agri-50 transition ${
+                      language === lang.code ? 'bg-agri-50/80 text-agri-900 font-bold' : 'text-gray-700'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">{lang.flag}</span>
+                      <span>{lang.native}</span>
+                      <span className="text-[10px] text-gray-400 font-normal">({lang.label})</span>
+                    </div>
+                    {language === lang.code && <Check className="w-3.5 h-3.5 text-agri-600" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
           {isAuthenticated ? (
             <>
               {/* Role badge */}
@@ -92,7 +144,10 @@ export const Navbar = ({ onToggleSidebar }) => {
               {/* Notifications */}
               <div className="relative">
                 <button
-                  onClick={() => setShowNotifDropdown(!showNotifDropdown)}
+                  onClick={() => {
+                    setShowNotifDropdown(!showNotifDropdown);
+                    setShowLangDropdown(false);
+                  }}
                   className="p-2 rounded-xl text-gray-500 hover:text-agri-700 hover:bg-agri-50 transition relative"
                   aria-label="View notifications"
                 >
@@ -107,12 +162,14 @@ export const Navbar = ({ onToggleSidebar }) => {
                 {showNotifDropdown && (
                   <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 py-3 z-50 animate-in fade-in slide-in-from-top-2">
                     <div className="px-4 pb-2 border-b border-gray-100 flex items-center justify-between">
-                      <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">Notifications</span>
-                      <span className="text-xs text-agri-700 font-medium">{unreadCount} unread</span>
+                      <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        {t('notifications', 'Notifications')}
+                      </span>
+                      <span className="text-xs text-agri-700 font-medium">{unreadCount} {t('unread', 'unread')}</span>
                     </div>
                     <div className="max-h-64 overflow-y-auto divide-y divide-gray-50">
                       {notifications.length === 0 ? (
-                        <p className="text-xs text-gray-500 text-center py-6">No new notifications</p>
+                        <p className="text-xs text-gray-500 text-center py-6">{t('noNotifications', 'No new notifications')}</p>
                       ) : (
                         notifications.slice(0, 5).map((n) => (
                           <div key={n.id} className="p-3 hover:bg-gray-50 text-left">
@@ -146,25 +203,25 @@ export const Navbar = ({ onToggleSidebar }) => {
               <button
                 onClick={logout}
                 className="p-2 rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 transition"
-                title="Log Out"
-                aria-label="Log Out"
+                title={t('logout', 'Log Out')}
+                aria-label={t('logout', 'Log Out')}
               >
                 <LogOut className="w-5 h-5" />
               </button>
             </>
           ) : (
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <Link
                 to="/login"
-                className="text-xs sm:text-sm font-semibold text-gray-700 hover:text-agri-700 px-3 py-2 rounded-xl hover:bg-agri-50 transition"
+                className="text-xs sm:text-sm font-semibold text-gray-700 hover:text-agri-700 px-2.5 sm:px-3 py-2 rounded-xl hover:bg-agri-50 transition"
               >
-                Sign In
+                {t('signIn', 'Sign In')}
               </Link>
               <Link
                 to="/register"
-                className="text-xs sm:text-sm font-semibold text-white bg-agri-700 hover:bg-agri-800 px-4 py-2 rounded-xl shadow-sm shadow-agri-700/20 transition"
+                className="text-xs sm:text-sm font-semibold text-white bg-agri-700 hover:bg-agri-800 px-3 sm:px-4 py-2 rounded-xl shadow-sm shadow-agri-700/20 transition"
               >
-                Get Started
+                {t('getStarted', 'Get Started')}
               </Link>
             </div>
           )}

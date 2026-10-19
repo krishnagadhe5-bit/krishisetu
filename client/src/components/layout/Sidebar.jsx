@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import {
   LayoutDashboard,
   Tractor,
@@ -14,7 +15,6 @@ import {
   Truck,
   TrendingUp,
   BotMessageSquare,
-  UsersRound,
   FileText,
   UserCheck,
   ClipboardList,
@@ -22,35 +22,36 @@ import {
 
 export const Sidebar = ({ isOpen, onClose }) => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const role = user?.role;
 
   const farmerNav = [
-    { label: 'Farm Dashboard', to: '/portal/farmer', icon: LayoutDashboard },
-    { label: 'Farms & Fields', to: '/portal/farmer/farms', icon: Tractor },
-    { label: 'Crop Lifecycle', to: '/portal/farmer/crops', icon: Trees },
-    { label: 'AI Crop Recommendation', to: '/portal/farmer/ai-crop', icon: Sparkles },
-    { label: 'Disease Diagnostics', to: '/portal/farmer/disease', icon: ShieldAlert },
-    { label: 'Weather Intelligence', to: '/portal/farmer/weather', icon: CloudSun },
-    { label: 'Smart Irrigation', to: '/portal/farmer/irrigation', icon: Droplets },
-    { label: 'My Crop Listings', to: '/portal/farmer/listings', icon: Store },
-    { label: 'Orders & Sales', to: '/portal/farmer/orders', icon: ShoppingBag },
-    { label: 'Expenses & Digital Twin', to: '/portal/farmer/analytics', icon: TrendingUp },
-    { label: 'AI Farm Assistant', to: '/portal/farmer/assistant', icon: BotMessageSquare },
-    { label: 'Govt Schemes', to: '/portal/farmer/schemes', icon: FileText },
+    { label: t('farmDashboard', 'Farm Dashboard'), to: '/portal/farmer', icon: LayoutDashboard },
+    { label: t('farmsFields', 'Farms & Fields'), to: '/portal/farmer/farms', icon: Tractor },
+    { label: t('cropLifecycle', 'Crop Lifecycle'), to: '/portal/farmer/crops', icon: Trees },
+    { label: t('aiCropRecommendation', 'AI Crop Recommendation'), to: '/portal/farmer/ai-crop', icon: Sparkles },
+    { label: t('diseaseDiagnostics', 'Disease Diagnostics'), to: '/portal/farmer/disease', icon: ShieldAlert },
+    { label: t('weatherIntelligence', 'Weather Intelligence'), to: '/portal/farmer/weather', icon: CloudSun },
+    { label: t('smartIrrigation', 'Smart Irrigation'), to: '/portal/farmer/irrigation', icon: Droplets },
+    { label: t('myListings', 'My Crop Listings'), to: '/portal/farmer/listings', icon: Store },
+    { label: t('ordersSales', 'Orders & Sales'), to: '/portal/farmer/orders', icon: ShoppingBag },
+    { label: t('expensesTwin', 'Expenses & Digital Twin'), to: '/portal/farmer/analytics', icon: TrendingUp },
+    { label: t('aiAssistant', 'AI Farm Assistant'), to: '/portal/farmer/assistant', icon: BotMessageSquare },
+    { label: t('schemesNav', 'Govt Schemes'), to: '/portal/farmer/schemes', icon: FileText },
   ];
 
   const buyerNav = [
-    { label: 'Buyer Dashboard', to: '/portal/buyer', icon: LayoutDashboard },
-    { label: 'Browse Marketplace', to: '/portal/buyer/marketplace', icon: Store },
-    { label: 'Requirements Matching', to: '/portal/buyer/match', icon: Sparkles },
-    { label: 'Purchase Orders', to: '/portal/buyer/orders', icon: ShoppingBag },
-    { label: 'Shipments & Logistics', to: '/portal/buyer/shipments', icon: Truck },
+    { label: t('buyerDashboard', 'Buyer Dashboard'), to: '/portal/buyer', icon: LayoutDashboard },
+    { label: t('browseMarketplace', 'Browse Marketplace'), to: '/portal/buyer/marketplace', icon: Store },
+    { label: t('requirementsMatching', 'Requirements Matching'), to: '/portal/buyer/match', icon: Sparkles },
+    { label: t('purchaseOrders', 'Purchase Orders'), to: '/portal/buyer/orders', icon: ShoppingBag },
+    { label: t('shipmentsLogistics', 'Shipments & Logistics'), to: '/portal/buyer/shipments', icon: Truck },
   ];
 
   const adminNav = [
-    { label: 'System Analytics', to: '/portal/admin', icon: LayoutDashboard },
-    { label: 'User Management', to: '/portal/admin/users', icon: UserCheck },
-    { label: 'Audit Logs', to: '/portal/admin/audit-logs', icon: ClipboardList },
+    { label: t('systemAnalytics', 'System Analytics'), to: '/portal/admin', icon: LayoutDashboard },
+    { label: t('userManagement', 'User Management'), to: '/portal/admin/users', icon: UserCheck },
+    { label: t('auditLogs', 'Audit Logs'), to: '/portal/admin/audit-logs', icon: ClipboardList },
   ];
 
   let navItems = farmerNav;

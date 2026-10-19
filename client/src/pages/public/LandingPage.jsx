@@ -18,7 +18,11 @@ import {
   Layers,
 } from 'lucide-react';
 
+import { useLanguage } from '../../context/LanguageContext';
+
 export const LandingPage = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-[#f8faf7] flex flex-col">
       <Navbar />
@@ -29,18 +33,21 @@ export const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-agri-100/80 border border-agri-300 text-agri-900 text-xs font-semibold mb-6">
             <span className="w-2 h-2 rounded-full bg-agri-600 animate-pulse" />
-            Empowering Indian Agriculture with Real Data & Intelligence
+            {t('empoweringBadge', 'Empowering Indian Agriculture with Real Data & Intelligence')}
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight max-w-4xl mx-auto leading-tight">
-            Smart Farming. Better Decisions.{' '}
+            {t('tagline1', 'Smart Farming. Better Decisions.')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-agri-700 via-agri-600 to-harvest-600">
-              Stronger Markets.
+              {t('tagline2', 'Stronger Markets.')}
             </span>
           </h1>
 
           <p className="mt-6 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            KrishiSetu is Maharashtra's comprehensive agricultural intelligence platform. Unify farm planning, soil nutrient AI, computer vision disease diagnostics, market prices, and B2B buyer supply chains in one place.
+            {t(
+              'heroDescription',
+              "KrishiSetu is Maharashtra's comprehensive agricultural intelligence platform. Unify farm planning, soil nutrient AI, computer vision disease diagnostics, market prices, and B2B buyer supply chains in one place."
+            )}
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -48,14 +55,14 @@ export const LandingPage = () => {
               to="/register"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-agri-700 hover:bg-agri-800 text-white font-semibold text-sm shadow-md shadow-agri-700/25 transition"
             >
-              Start Free Farm Setup
+              {t('startFreeSetup', 'Start Free Farm Setup')}
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/marketplace"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-800 font-semibold text-sm border border-gray-200 shadow-sm transition"
             >
-              Browse Agricultural Produce
+              {t('browseProduce', 'Browse Agricultural Produce')}
             </Link>
           </div>
 
