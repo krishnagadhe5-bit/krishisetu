@@ -20,7 +20,6 @@ export const LoginPage = () => {
       // Navigate to respective role portal
       if (user.role === 'FARMER') navigate('/portal/farmer');
       else if (user.role === 'BUYER') navigate('/portal/buyer');
-      else if (user.role === 'AGRICULTURE_EXPERT') navigate('/portal/expert');
       else if (user.role === 'ADMIN') navigate('/portal/admin');
       else navigate('/');
     } catch (err) {
@@ -106,7 +105,7 @@ export const LoginPage = () => {
             <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block text-center mb-3">
               One-Click Demo Accounts
             </span>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => handleDemoFill('farmer@krishisetu.in', 'Farmer@123')}
@@ -122,14 +121,6 @@ export const LoginPage = () => {
               >
                 <span className="text-xs font-bold text-harvest-900 block">🏢 Buyer</span>
                 <span className="text-[10px] text-gray-500 block truncate">Sahyadri Traders</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoFill('expert@krishisetu.in', 'Expert@123')}
-                className="p-2.5 text-left border border-blue-100 hover:border-blue-300 rounded-xl bg-blue-50/50 hover:bg-blue-50 transition"
-              >
-                <span className="text-xs font-bold text-blue-900 block">🔬 Expert</span>
-                <span className="text-[10px] text-gray-500 block truncate">Dr. Deshmukh</span>
               </button>
               <button
                 type="button"

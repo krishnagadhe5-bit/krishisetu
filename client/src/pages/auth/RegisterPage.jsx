@@ -36,7 +36,6 @@ export const RegisterPage = () => {
       toast.success(`Account registered successfully as ${user.role}!`);
       if (user.role === 'FARMER') navigate('/portal/farmer');
       else if (user.role === 'BUYER') navigate('/portal/buyer');
-      else if (user.role === 'AGRICULTURE_EXPERT') navigate('/portal/expert');
       else navigate('/');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed. Please check inputs.');
@@ -70,8 +69,8 @@ export const RegisterPage = () => {
             {/* Role selector */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">Select Role</label>
-              <div className="grid grid-cols-3 gap-2">
-                {['FARMER', 'BUYER', 'AGRICULTURE_EXPERT'].map((r) => (
+              <div className="grid grid-cols-2 gap-2">
+                {['FARMER', 'BUYER'].map((r) => (
                   <button
                     key={r}
                     type="button"
@@ -82,7 +81,7 @@ export const RegisterPage = () => {
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
                     }`}
                   >
-                    {r === 'FARMER' ? '🌾 Farmer' : r === 'BUYER' ? '🏢 Buyer' : '🔬 Expert'}
+                    {r === 'FARMER' ? '🌾 Farmer' : '🏢 Buyer'}
                   </button>
                 ))}
               </div>

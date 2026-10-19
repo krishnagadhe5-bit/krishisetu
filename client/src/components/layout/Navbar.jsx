@@ -27,8 +27,6 @@ export const Navbar = ({ onToggleSidebar }) => {
         return '/portal/farmer';
       case 'BUYER':
         return '/portal/buyer';
-      case 'AGRICULTURE_EXPERT':
-        return '/portal/expert';
       case 'ADMIN':
         return '/portal/admin';
       default:
@@ -65,15 +63,21 @@ export const Navbar = ({ onToggleSidebar }) => {
           </Link>
         </div>
 
-        {/* Center: Public Links */}
-        {!isAuthenticated && (
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
-            <Link to="/" className="hover:text-agri-700 transition">Home</Link>
-            <Link to="/marketplace" className="hover:text-agri-700 transition">Marketplace</Link>
-            <Link to="/schemes" className="hover:text-agri-700 transition">Govt Schemes</Link>
-            <Link to="/advisory" className="hover:text-agri-700 transition">Agro Intelligence</Link>
-          </nav>
-        )}
+        {/* Center: Main Working Navigation Links (Always visible) */}
+        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+          <Link to="/" className="hover:text-agri-700 transition">
+            Home
+          </Link>
+          <Link to="/marketplace" className="hover:text-agri-700 transition">
+            Marketplace
+          </Link>
+          <Link to="/schemes" className="hover:text-agri-700 transition">
+            Govt Schemes
+          </Link>
+          <Link to="/advisory" className="hover:text-agri-700 transition">
+            Agro Intelligence
+          </Link>
+        </nav>
 
         {/* Right: Actions */}
         <div className="flex items-center space-x-3">

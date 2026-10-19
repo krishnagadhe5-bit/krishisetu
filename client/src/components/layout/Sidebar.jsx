@@ -36,7 +36,6 @@ export const Sidebar = ({ isOpen, onClose }) => {
     { label: 'Orders & Sales', to: '/portal/farmer/orders', icon: ShoppingBag },
     { label: 'Expenses & Digital Twin', to: '/portal/farmer/analytics', icon: TrendingUp },
     { label: 'AI Farm Assistant', to: '/portal/farmer/assistant', icon: BotMessageSquare },
-    { label: 'Expert Consultations', to: '/portal/farmer/consultations', icon: UsersRound },
     { label: 'Govt Schemes', to: '/portal/farmer/schemes', icon: FileText },
   ];
 
@@ -48,11 +47,6 @@ export const Sidebar = ({ isOpen, onClose }) => {
     { label: 'Shipments & Logistics', to: '/portal/buyer/shipments', icon: Truck },
   ];
 
-  const expertNav = [
-    { label: 'Consultation Dashboard', to: '/portal/expert', icon: LayoutDashboard },
-    { label: 'Active Farm Cases', to: '/portal/expert/cases', icon: UsersRound },
-  ];
-
   const adminNav = [
     { label: 'System Analytics', to: '/portal/admin', icon: LayoutDashboard },
     { label: 'User Management', to: '/portal/admin/users', icon: UserCheck },
@@ -61,7 +55,6 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
   let navItems = farmerNav;
   if (role === 'BUYER') navItems = buyerNav;
-  if (role === 'AGRICULTURE_EXPERT') navItems = expertNav;
   if (role === 'ADMIN') navItems = adminNav;
 
   return (

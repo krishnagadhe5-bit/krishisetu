@@ -3,8 +3,13 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
 import { DashboardLayout } from '../components/layout/DashboardLayout';
 
-// Public & Auth Pages
+// Public & Main Working Navigation Pages
 import { LandingPage } from '../pages/public/LandingPage';
+import { MarketplacePage } from '../pages/public/MarketplacePage';
+import { PublicSchemesPage } from '../pages/public/PublicSchemesPage';
+import { AgroIntelligencePage } from '../pages/public/AgroIntelligencePage';
+
+// Auth Pages
 import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
 
@@ -20,15 +25,11 @@ import { ListingsPage } from '../pages/farmer/ListingsPage';
 import { OrdersPage } from '../pages/farmer/OrdersPage';
 import { AnalyticsPage } from '../pages/farmer/AnalyticsPage';
 import { AssistantPage } from '../pages/farmer/AssistantPage';
-import { ConsultationsPage } from '../pages/farmer/ConsultationsPage';
 import { SchemesPage } from '../pages/farmer/SchemesPage';
 
 // Buyer Pages
 import { BuyerDashboardPage } from '../pages/buyer/BuyerDashboardPage';
 import { BuyerMatchPage } from '../pages/buyer/BuyerMatchPage';
-
-// Expert Pages
-import { ExpertDashboardPage } from '../pages/expert/ExpertDashboardPage';
 
 // Admin Pages
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
@@ -36,8 +37,11 @@ import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 export const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public Pages */}
+      {/* Public & Main Dashboard Working Navigation Options */}
       <Route path="/" element={<LandingPage />} />
+      <Route path="/marketplace" element={<MarketplacePage />} />
+      <Route path="/schemes" element={<PublicSchemesPage />} />
+      <Route path="/advisory" element={<AgroIntelligencePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
@@ -140,14 +144,6 @@ export const AppRoutes = () => {
           }
         />
         <Route
-          path="farmer/consultations"
-          element={
-            <ProtectedRoute allowedRoles={['FARMER']}>
-              <ConsultationsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="farmer/schemes"
           element={
             <ProtectedRoute allowedRoles={['FARMER']}>
@@ -169,7 +165,7 @@ export const AppRoutes = () => {
           path="buyer/marketplace"
           element={
             <ProtectedRoute allowedRoles={['BUYER']}>
-              <BuyerDashboardPage />
+              <MarketplacePage />
             </ProtectedRoute>
           }
         />
@@ -194,24 +190,6 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['BUYER']}>
               <BuyerDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Agriculture Expert Domain */}
-        <Route
-          path="expert"
-          element={
-            <ProtectedRoute allowedRoles={['AGRICULTURE_EXPERT']}>
-              <ExpertDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="expert/cases"
-          element={
-            <ProtectedRoute allowedRoles={['AGRICULTURE_EXPERT']}>
-              <ExpertDashboardPage />
             </ProtectedRoute>
           }
         />

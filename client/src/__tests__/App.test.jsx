@@ -11,7 +11,15 @@ describe('KrishiSetu React Frontend Suite', () => {
     expect(screen.getByText(/Stronger Markets/i)).toBeInTheDocument();
   });
 
-  it('renders agricultural call to action buttons', () => {
+  it('renders all 4 main navbar links (Home, Marketplace, Govt Schemes, Agro Intelligence)', () => {
+    render(<App />);
+    expect(screen.getByRole('link', { name: /^Home$/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /^Marketplace$/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /^Govt Schemes$/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /^Agro Intelligence$/i })).toBeInTheDocument();
+  });
+
+  it('renders action buttons on header', () => {
     render(<App />);
     expect(screen.getByRole('link', { name: /Sign In/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Get Started/i })).toBeInTheDocument();
