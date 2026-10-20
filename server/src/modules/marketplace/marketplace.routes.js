@@ -7,6 +7,7 @@ const router = Router();
 
 // Public browse
 router.get('/', MarketplaceController.getListings);
+router.get('/listings', MarketplaceController.getListings);
 router.get('/:id', MarketplaceController.getListingById);
 
 // Protected routes

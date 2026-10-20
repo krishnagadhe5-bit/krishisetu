@@ -5,6 +5,7 @@ import { authenticate } from '../../middleware/auth.js';
 const router = Router();
 
 router.get('/current', WeatherController.getGeneralWeather);
+router.get('/forecast', WeatherController.getGeneralWeather);
 router.get('/farm/:farmId', authenticate, WeatherController.getFarmWeather);
 
 export default router;

@@ -126,6 +126,7 @@ app.use('/api/v1/crops', cropsRoutes);
 app.use('/api/v1/weather', weatherRoutes);
 app.use('/api/v1/ai', aiRoutes);
 app.use('/api/v1/markets', marketsRoutes);
+app.use('/api/v1/mandi', marketsRoutes);
 app.use('/api/v1/marketplace', marketplaceRoutes);
 app.use('/api/v1/orders', ordersRoutes);
 app.use('/api/v1/shipments', shipmentsRoutes);
