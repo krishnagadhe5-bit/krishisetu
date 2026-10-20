@@ -38,7 +38,13 @@ export const RegisterPage = () => {
       else if (user.role === 'BUYER') navigate('/portal/buyer');
       else navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed. Please check inputs.');
+      const errorMsg =
+        err.response?.data?.errors?.[0]?.message ||
+        err.response?.data?.message ||
+        (err.request
+          ? 'Unable to connect to KrishiSetu backend server (port 5000). Please ensure server is running.'
+          : 'Registration failed. Please check inputs.');
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
