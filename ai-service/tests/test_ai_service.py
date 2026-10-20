@@ -11,6 +11,7 @@ def test_health_endpoint():
     data = response.json()
     assert data["status"] == "healthy"
     assert "KrishiSetu" in data["service"]
+    assert "ollama" in data["models"]
 
 def test_recommend_crop_without_auth():
     payload = {
@@ -57,3 +58,14 @@ def test_chat_rag_assistant():
     data = response.json()
     assert "answer" in data
     assert len(data["sources"]) > 0
+
+def test_ollama_status_endpoint():
+    response = client.get(
+        "/api/v1/ollama/status",
+        headers={"x-api-key": API_KEY}
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["provider"] == "ollama"
+    assert "status" in data
+    assert "endpoint" in data

@@ -64,7 +64,7 @@ export const AssistantPage = () => {
       <div>
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-agri-100 text-agri-900 text-xs font-semibold mb-2">
           <Sparkles className="w-3.5 h-3.5 text-agri-700" />
-          RAG Knowledge Assistant (Official Agro-Corpus)
+          Ollama AI Model (llama3) + ICAR Agronomic Corpus
         </div>
         <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
           AI Agricultural Knowledge Assistant

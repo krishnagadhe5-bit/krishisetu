@@ -7,6 +7,8 @@ class Settings(BaseModel):
     API_V1_STR: str = "/api/v1"
     API_KEY: str = os.getenv("AI_SERVICE_API_KEY", "dev-ai-service-key")
     MODEL_PATH: str = os.getenv("MODEL_PATH", "app/models/crop_rf_model.joblib")
-    LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "none")
+    LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "ollama")
+    OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    OLLAMA_MODEL: str = os.getenv("OLLAMA_MODEL", "llama3")
 
 settings = Settings()
