@@ -70,20 +70,21 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar aside */}
       <aside
-        className={`fixed top-16 bottom-0 left-0 z-40 w-64 bg-white border-r border-gray-100 flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-16 bottom-0 left-0 z-40 w-64 bg-white/95 backdrop-blur-md border-r border-[#e7efe8] flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="p-4 border-b border-gray-50 flex items-center justify-between">
+        <div className="p-4 border-b border-[#eef5ef] flex items-center justify-between">
           <div>
-            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
               Workspace Portal
             </span>
-            <p className="text-xs font-semibold text-agri-900 capitalize">
+            <p className="text-xs font-bold text-agri-950 capitalize flex items-center gap-1.5 mt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-agri-600" />
               {role ? role.replace('_', ' ').toLowerCase() : 'Portal'}
             </p>
           </div>
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" title="System Connected" />
+          <span className="w-2 h-2 rounded-full bg-emerald-500 ring-4 ring-emerald-50 animate-pulse" title="System Connected" />
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
@@ -96,10 +97,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
                 end={item.to === '/portal/farmer' || item.to === '/portal/buyer' || item.to === '/portal/admin'}
                 onClick={onClose}
                 className={({ isActive }) =>
-                  `flex items-center px-3 py-2.5 rounded-xl text-xs font-medium transition ${
+                  `flex items-center px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-150 ${
                     isActive
-                      ? 'bg-agri-50 text-agri-800 font-semibold border border-agri-200/60 shadow-sm'
-                      : 'text-gray-600 hover:text-agri-700 hover:bg-gray-50'
+                      ? 'bg-agri-50 text-agri-900 font-semibold border border-agri-200/90 shadow-subtle translate-x-0.5'
+                      : 'text-gray-600 hover:text-agri-800 hover:bg-[#f6faf7] hover:translate-x-0.5'
                   }`
                 }
               >
@@ -111,10 +112,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </nav>
 
         {/* Footer info */}
-        <div className="p-3 border-t border-gray-100 bg-[#fafcf9]">
-          <div className="bg-agri-100/60 rounded-xl p-2.5 text-center">
-            <span className="text-[10px] font-bold text-agri-900 block">KrishiSetu Maharashtra</span>
-            <span className="text-[9px] text-agri-700 block mt-0.5">Agro-Intelligence Engine v1.0</span>
+        <div className="p-3 border-t border-[#eef5ef] bg-[#fafdF8]">
+          <div className="bg-agri-50 border border-agri-200/70 rounded-xl p-2.5 text-center">
+            <span className="text-[10px] font-bold text-agri-950 block">KrishiSetu Maharashtra</span>
+            <span className="text-[9px] text-agri-700 block mt-0.5 font-medium">Agro-Intelligence Engine v1.0</span>
           </div>
         </div>
       </aside>

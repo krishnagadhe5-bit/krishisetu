@@ -97,29 +97,29 @@ export const LoginPage = () => {
 
       {/* Brand Header */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <Link to="/" className="inline-flex items-center space-x-2">
-          <div className="w-10 h-10 rounded-xl bg-agri-700 flex items-center justify-center text-white shadow-md">
+        <Link to="/" className="inline-flex items-center space-x-2.5 group">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-agri-600 via-agri-700 to-agri-900 flex items-center justify-center text-white shadow-md shadow-agri-700/25 ring-1 ring-white/20 transition group-hover:scale-105">
             <Sprout className="w-6 h-6" />
           </div>
-          <span className="text-2xl font-bold tracking-tight text-agri-950">KrishiSetu</span>
+          <span className="text-2xl font-extrabold tracking-tight text-agri-950 font-display">KrishiSetu</span>
         </Link>
-        <h2 className="mt-4 text-xl sm:text-2xl font-extrabold text-gray-900">
-          Sign In to Your Account
+        <h2 className="mt-4 text-xl sm:text-2xl font-extrabold text-gray-900 font-display tracking-tight">
+          Sign In to Your Workspace
         </h2>
-        <p className="mt-1 text-xs text-gray-500">
-          Enter your registered email address and password to access your workspace.
+        <p className="mt-1 text-xs text-gray-500 font-medium">
+          Enter your registered email address and password to access verified agronomy.
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
-        <div className="bg-white py-8 px-6 shadow-sm border border-gray-100 rounded-3xl sm:px-10">
+        <div className="bg-white/95 backdrop-blur-md py-8 px-6 shadow-card border border-[#e4ede5] rounded-3xl sm:px-10">
           {/* Security Alert Header */}
-          <div className="mb-6 p-3 rounded-2xl bg-[#fafcf9] border border-gray-100 flex items-center justify-between text-xs text-gray-600">
+          <div className="mb-6 p-3 rounded-2xl bg-[#f5f9f6] border border-agri-200/70 flex items-center justify-between text-xs text-gray-700">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-agri-600" />
-              <span className="font-semibold text-[11px]">256-Bit SSL/TLS Encrypted Login</span>
+              <ShieldCheck className="w-4 h-4 text-agri-700" />
+              <span className="font-semibold text-[11px] text-agri-950">256-Bit SSL/TLS Encrypted Login</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-agri-100 text-agri-800 font-bold">
+            <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-agri-100/90 text-agri-900 font-bold border border-agri-200">
               Protected
             </span>
           </div>
@@ -204,7 +204,7 @@ export const LoginPage = () => {
             <button
               type="submit"
               disabled={loading || lockoutTimer > 0 || !isFormValid}
-              className="w-full mt-2 flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-xl shadow-sm text-xs sm:text-sm font-semibold text-white bg-agri-700 hover:bg-agri-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-agri-500 disabled:opacity-50 transition"
+              className="w-full mt-2 flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-xl shadow-md shadow-agri-800/20 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-agri-700 via-agri-700 to-agri-800 hover:from-agri-800 hover:to-agri-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-agri-600 disabled:opacity-50 transition active:scale-[0.99]"
             >
               {loading ? (
                 'Verifying Signature & Permissions...'
@@ -218,13 +218,13 @@ export const LoginPage = () => {
           </form>
 
           {/* Real Registration Options */}
-          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-            <p className="text-xs text-gray-600 mb-3 font-medium">
+          <div className="mt-8 pt-6 border-t border-[#eef5ef] text-center">
+            <p className="text-xs text-gray-600 mb-3 font-semibold">
               Don't have an account yet?
             </p>
             <Link
               to="/register"
-              className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl border border-agri-200 bg-agri-50/70 hover:bg-agri-100/70 text-agri-800 text-xs sm:text-sm font-semibold transition"
+              className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl border border-agri-200/90 bg-agri-50/80 hover:bg-agri-100 text-agri-950 text-xs sm:text-sm font-bold transition shadow-subtle hover:shadow-sm"
             >
               <span>Create New Account (Farmer or Buyer)</span>
               <ArrowRight className="w-3.5 h-3.5 text-agri-700" />

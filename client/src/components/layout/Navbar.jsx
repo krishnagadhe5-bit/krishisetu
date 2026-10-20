@@ -38,28 +38,28 @@ export const Navbar = ({ onToggleSidebar }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-40 glass-header shadow-subtle">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Brand */}
         <div className="flex items-center space-x-3">
           {isAuthenticated && onToggleSidebar && (
             <button
               onClick={onToggleSidebar}
-              className="lg:hidden p-2 rounded-lg text-gray-600 hover:text-agri-700 hover:bg-agri-50 focus:outline-none"
+              className="lg:hidden p-2 rounded-xl text-gray-600 hover:text-agri-800 hover:bg-agri-50 focus:outline-none transition"
               aria-label="Toggle navigation menu"
             >
               <Menu className="w-5 h-5" />
             </button>
           )}
 
-          <Link to="/" className="flex items-center space-x-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-agri-600 to-agri-800 flex items-center justify-center text-white shadow-md shadow-agri-600/20">
-              <Sprout className="w-6 h-6" />
+          <Link to="/" className="flex items-center space-x-2.5 group">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-agri-600 via-agri-700 to-agri-900 flex items-center justify-center text-white shadow-md shadow-agri-700/25 ring-1 ring-white/20 transition group-hover:scale-105">
+              <Sprout className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xl font-bold tracking-tight text-agri-950 flex items-center gap-1.5">
+              <span className="text-xl font-extrabold tracking-tight text-agri-950 flex items-center gap-1.5 font-display">
                 {t('platformName', 'KrishiSetu')}
-                <span className="text-xs px-2 py-0.5 rounded-full bg-agri-100 text-agri-800 font-medium">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-agri-100/90 text-agri-900 font-semibold border border-agri-200/60">
                   {t('platformBadge', 'कृषीसेतू')}
                 </span>
               </span>
@@ -71,17 +71,29 @@ export const Navbar = ({ onToggleSidebar }) => {
         </div>
 
         {/* Center: Main Working Navigation Links */}
-        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
-          <Link to="/" className="hover:text-agri-700 transition">
+        <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 text-xs font-semibold text-gray-600">
+          <Link
+            to="/"
+            className="px-3 py-1.5 rounded-xl hover:text-agri-800 hover:bg-agri-50/70 transition"
+          >
             {t('home', 'Home')}
           </Link>
-          <Link to="/marketplace" className="hover:text-agri-700 transition">
+          <Link
+            to="/marketplace"
+            className="px-3 py-1.5 rounded-xl hover:text-agri-800 hover:bg-agri-50/70 transition"
+          >
             {t('marketplace', 'Marketplace')}
           </Link>
-          <Link to="/schemes" className="hover:text-agri-700 transition">
+          <Link
+            to="/schemes"
+            className="px-3 py-1.5 rounded-xl hover:text-agri-800 hover:bg-agri-50/70 transition"
+          >
             {t('govtSchemes', 'Govt Schemes')}
           </Link>
-          <Link to="/advisory" className="hover:text-agri-700 transition">
+          <Link
+            to="/advisory"
+            className="px-3 py-1.5 rounded-xl hover:text-agri-800 hover:bg-agri-50/70 transition"
+          >
             {t('agroIntelligence', 'Agro Intelligence')}
           </Link>
         </nav>
