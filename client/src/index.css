@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#f8faf7] text-gray-900 antialiased selection:bg-agri-100 selection:text-agri-900;
+    @apply bg-[#f4f6f8] text-gray-900 antialiased selection:bg-agri-100 selection:text-agri-900;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     letter-spacing: -0.011em;
   }
@@ -17,17 +17,17 @@
 
 @layer utilities {
   .glass-header {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(224, 235, 226, 0.75);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.85);
   }
 
   .glass-card {
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(230, 238, 232, 0.85);
+    border: 1px solid rgba(226, 232, 240, 0.9);
   }
 
   .gradient-agri {

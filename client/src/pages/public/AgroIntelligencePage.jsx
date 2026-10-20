@@ -119,7 +119,7 @@ export const AgroIntelligencePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8faf7] flex flex-col">
+    <div className="min-h-screen bg-[#f4f6f8] flex flex-col">
       <Navbar />
       <Toaster position="top-right" />
 
@@ -263,7 +263,7 @@ export const AgroIntelligencePage = () => {
                       <ShieldAlert className="w-4 h-4 text-agri-600" />
                       Foliar Spraying & Chemical Safety Window
                     </div>
-                    <p className="text-xs text-gray-600 leading-relaxed bg-[#f8faf7] p-3.5 rounded-2xl border border-gray-100">
+                    <p className="text-xs text-gray-600 leading-relaxed bg-[#f4f6f8] p-3.5 rounded-2xl border border-gray-100">
                       {weatherData.agriculturalAdvisory?.sprayingWindow ||
                         'Current atmospheric pressure and low wind conditions are safe for foliar spraying.'}
                     </p>
@@ -285,7 +285,7 @@ export const AgroIntelligencePage = () => {
                       <Droplets className="w-4 h-4 text-sky-600" />
                       Smart Irrigation Recommendation
                     </div>
-                    <p className="text-xs text-gray-600 leading-relaxed bg-[#f8faf7] p-3.5 rounded-2xl border border-gray-100">
+                    <p className="text-xs text-gray-600 leading-relaxed bg-[#f4f6f8] p-3.5 rounded-2xl border border-gray-100">
                       {weatherData.agriculturalAdvisory?.irrigationSuggestion ||
                         'Soil moisture depletion rate is normal. Maintain scheduled drip cycles during evening hours.'}
                     </p>
@@ -501,7 +501,7 @@ export const AgroIntelligencePage = () => {
                     <span>Calibrated Random Forest Pipeline</span>
                   </div>
 
-                  <p className="mt-4 text-xs sm:text-sm text-gray-600 leading-relaxed bg-[#f8faf7] p-4 rounded-2xl border border-gray-100">
+                  <p className="mt-4 text-xs sm:text-sm text-gray-600 leading-relaxed bg-[#f4f6f8] p-4 rounded-2xl border border-gray-100">
                     {recommendationResult.reason}
                   </p>
 

@@ -7,7 +7,7 @@ export const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#f8faf7] flex flex-col">
+    <div className="min-h-screen bg-[#f4f6f8] flex flex-col">
       <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <div className="flex-1 flex">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />

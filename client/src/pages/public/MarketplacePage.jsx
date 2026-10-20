@@ -115,7 +115,7 @@ export const MarketplacePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8faf7] flex flex-col">
+    <div className="min-h-screen bg-[#f4f6f8] flex flex-col">
       <Navbar />
       <Toaster position="top-right" />
 

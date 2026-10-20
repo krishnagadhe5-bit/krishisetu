@@ -51,7 +51,7 @@ export const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8faf7] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f4f6f8] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <Toaster position="top-right" />
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-flex items-center space-x-2">

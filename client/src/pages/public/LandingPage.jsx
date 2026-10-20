@@ -24,7 +24,7 @@ export const LandingPage = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-[#f8faf7] flex flex-col">
+    <div className="min-h-screen bg-[#f4f6f8] flex flex-col">
       <Navbar />
 
       {/* Hero Section */}
