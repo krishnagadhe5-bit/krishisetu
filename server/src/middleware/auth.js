@@ -16,12 +16,24 @@ export const authenticate = async (req, res, next) => {
       return apiError(res, 'Authentication required. No token provided.', 401);
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'krishisetu_super_secret_jwt_key_2026_production_change');
-
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      include: { profile: true, expertProfile: true },
-    });
+    let user = null;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'krishisetu_super_secret_jwt_key_2026_production_change');
+      user = await prisma.user.findUnique({
+        where: { id: decoded.userId },
+        include: { profile: true, expertProfile: true },
+      });
+    } catch (jwtErr) {
+      // Check if this is a Supabase Auth token
+      const { verifySupabaseToken } = await import('../config/supabase.js');
+      const supabaseUser = await verifySupabaseToken(token);
+      if (supabaseUser && supabaseUser.email) {
+        user = await prisma.user.findUnique({
+          where: { email: supabaseUser.email },
+          include: { profile: true, expertProfile: true },
+        });
+      }
+    }
 
     if (!user) {
       return apiError(res, 'User no longer exists', 401);
