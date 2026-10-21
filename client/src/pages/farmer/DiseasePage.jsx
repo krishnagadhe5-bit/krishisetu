@@ -115,28 +115,94 @@ export const DiseasePage = () => {
         <div className="lg:col-span-7">
           {result ? (
             <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4 animate-in fade-in">
+              {/* Header Status Bar */}
               <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                   Diagnostic Result
                 </span>
-                <span className="text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                  {Math.round(result.confidence * 100)}% Match
-                </span>
+                {result.isPlant === false || result.status === 'NON_PLANT' ? (
+                  <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                    Non-Crop Image Detected ({Math.round(result.confidence * 100)}% Confidence)
+                  </span>
+                ) : result.isHealthy ? (
+                  <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                    Healthy Foliage ({Math.round(result.confidence * 100)}% Match)
+                  </span>
+                ) : (
+                  <span className={`text-xs font-extrabold px-3 py-1 rounded-full border flex items-center gap-1.5 ${
+                    result.urgency === 'HIGH'
+                      ? 'bg-rose-50 text-rose-800 border-rose-200'
+                      : 'bg-amber-50 text-amber-800 border-amber-200'
+                  }`}>
+                    <ShieldAlert className="w-3.5 h-3.5" />
+                    {Math.round(result.confidence * 100)}% Match ({result.urgency || 'MODERATE'} Urgency)
+                  </span>
+                )}
               </div>
 
+              {/* Title & Model */}
               <div>
-                <h3 className="text-base sm:text-lg font-bold text-gray-900">{result.predictedDisease}</h3>
-                <span className="text-[10px] text-gray-400 block mt-0.5">Model: {result.modelVersion}</span>
+                <h3 className={`text-base sm:text-lg font-bold ${
+                  result.isPlant === false || result.status === 'NON_PLANT'
+                    ? 'text-amber-900'
+                    : result.isHealthy
+                    ? 'text-emerald-900'
+                    : 'text-gray-900'
+                }`}>
+                  {result.predictedDisease}
+                </h3>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-[10px] text-gray-400">Model: {result.modelVersion}</span>
+                  {result.cropName && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 font-semibold">
+                      Crop: {result.cropName}
+                    </span>
+                  )}
+                </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#fafcf9] border border-gray-100">
-                <span className="text-xs font-bold text-gray-900 block mb-1">Identified Symptoms</span>
-                <p className="text-xs text-gray-600 leading-relaxed">{result.symptoms}</p>
-              </div>
+              {/* Non-Plant Notice vs Symptoms */}
+              {result.isPlant === false || result.status === 'NON_PLANT' ? (
+                <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/70 space-y-2">
+                  <div className="flex items-center gap-2 text-amber-900 text-xs font-bold">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>Non-Crop Image Analysis</span>
+                  </div>
+                  <p className="text-xs text-amber-800 leading-relaxed">{result.symptoms}</p>
+                </div>
+              ) : (
+                <div className="p-4 rounded-2xl bg-[#fafcf9] border border-gray-100">
+                  <span className="text-xs font-bold text-gray-900 block mb-1">Identified Botanical Symptoms</span>
+                  <p className="text-xs text-gray-600 leading-relaxed">{result.symptoms}</p>
+                </div>
+              )}
 
-              <div className="p-4 rounded-2xl bg-agri-50/70 border border-agri-100">
-                <span className="text-xs font-bold text-agri-950 block mb-1">Verified Next Steps & Treatment</span>
-                <p className="text-xs text-agri-900 leading-relaxed">{result.recommendations}</p>
+              {/* Recommendations & Action Plan */}
+              <div className={`p-4 rounded-2xl border ${
+                result.isPlant === false || result.status === 'NON_PLANT'
+                  ? 'bg-gray-50 border-gray-200'
+                  : result.isHealthy
+                  ? 'bg-emerald-50/70 border-emerald-100 text-emerald-900'
+                  : 'bg-agri-50/70 border-agri-100 text-agri-950'
+              }`}>
+                <span className="text-xs font-bold block mb-1">
+                  {result.isPlant === false || result.status === 'NON_PLANT'
+                    ? 'Suggested Action'
+                    : result.isHealthy
+                    ? 'Agronomic Maintenance & Prevention'
+                    : 'Verified Next Steps & Treatment'}
+                </span>
+                <p className={`text-xs leading-relaxed ${
+                  result.isPlant === false || result.status === 'NON_PLANT'
+                    ? 'text-gray-700'
+                    : result.isHealthy
+                    ? 'text-emerald-800'
+                    : 'text-agri-900'
+                }`}>
+                  {result.recommendations}
+                </p>
               </div>
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">

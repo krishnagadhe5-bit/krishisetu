@@ -124,7 +124,7 @@ export const CropsPage = () => {
     }
   };
 
-  const allFields = farms.flatMap((f) => f.fields.map((fld) => ({ ...fld, farmName: f.name })));
+  const allFields = farms.flatMap((f) => (f.fields || []).map((fld) => ({ ...fld, farmName: f.name })));
 
   return (
     <>
@@ -245,13 +245,23 @@ export const CropsPage = () => {
                   value={cycleForm.fieldId}
                   onChange={(e) => setCycleForm({ ...cycleForm, fieldId: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white"
+                  disabled={allFields.length === 0}
                 >
-                  {allFields.map((fld) => (
-                    <option key={fld.id} value={fld.id}>
-                      {fld.name} ({fld.farmName} - {fld.areaAcres} Ac)
-                    </option>
-                  ))}
+                  {allFields.length === 0 ? (
+                    <option value="">— No fields available —</option>
+                  ) : (
+                    allFields.map((fld) => (
+                      <option key={fld.id} value={fld.id}>
+                        {fld.name} ({fld.farmName} - {fld.areaAcres} Ac)
+                      </option>
+                    ))
+                  )}
                 </select>
+                {allFields.length === 0 && (
+                  <p className="mt-1.5 text-[11px] text-red-500 font-medium">
+                    ⚠️ You need to add Field Plots first. Go to <strong>My Farms</strong> → select a farm → <strong>Add Field</strong>.
+                  </p>
+                )}
               </div>
 
               <div>
@@ -324,7 +334,8 @@ export const CropsPage = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-agri-700 text-white font-bold hover:bg-agri-800"
+                  disabled={allFields.length === 0}
+                  className={`flex-1 py-2.5 rounded-xl font-bold ${allFields.length === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-agri-700 text-white hover:bg-agri-800'}`}
                 >
                   Start Cycle
                 </button>
