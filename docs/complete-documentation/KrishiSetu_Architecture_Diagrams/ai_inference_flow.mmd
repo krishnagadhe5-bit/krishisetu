@@ -1,0 +1,77 @@
+graph TD
+    subgraph ClientTrigger["User Input & Invocation"]
+        A1["Farmer inputs soil & climate factors\n(N, P, K, pH, Temp, Humidity, Rain)"]
+        A2["Farmer uploads crop foliage photo\n(JPEG / PNG <= 10MB)"]
+        A3["Farmer asks agronomic question in chat\n(e.g., 'Sugarcane fertilizer split?')"]
+    end
+
+    subgraph ExpressGateway["Express API Orchestrator (/api/v1/ai/*)"]
+        E1["POST /api/v1/ai/recommend-crop"]
+        E2["POST /api/v1/ai/disease-detect"]
+        E3["POST /api/v1/ai/chat"]
+        
+        Fallback1["Calibrated Agro-Ecological Rule Fallback\n(Maharashtra Agro-Climatic Zones)"]
+        Fallback2["Certified Plant Pathology Expert Rules\n(PlantVillage Diagnostic Knowledge)"]
+        Fallback3["Curated Agronomic Knowledge Corpus\n(ICAR, MPKV Rahuri, DOGR, CICR)"]
+    end
+
+    subgraph FastAPIService["FastAPI AI Microservice (Port 8000)"]
+        SecCheck{"Check Header:\nx-api-key == settings.API_KEY"}
+        
+        subgraph Pipeline1["Crop Recommendation Pipeline"]
+            P1_Schema["Pydantic Validation (CropInputSchema)"]
+            P1_Model["Load crop_rf_model.joblib (100 Trees, max_depth 12)"]
+            P1_Inference["model.predict_proba(features)"]
+            P1_Format["Rank Top 3 Classes + Map Vernacular & Rationale"]
+        end
+
+        subgraph Pipeline2["Plant Disease Diagnostic Pipeline"]
+            P2_Valid["Validate MIME Type & Content Length <= 10MB"]
+            P2_CV["MobileNetV3-PlantVillage-Weights Pipeline"]
+            P2_Diag["Generate Pathology Diagnosis, Symptoms & Spray Rx"]
+        end
+
+        subgraph Pipeline3["RAG Assistant Pipeline"]
+            P3_Search["Keyword & Semantic Search in Agronomic Corpus"]
+            P3_OllamaCheck{"Check Ollama Daemon (Port 11434)"}
+            P3_OllamaRun["Query Ollama /api/generate with Grounded Context"]
+            P3_DirectCorpus["Direct Grounded University Citations (MPKV, ICAR)"]
+        end
+    end
+
+    subgraph DatabasePersistence["Supabase PostgreSQL Audit & History"]
+        DB_Rec["Save CropRecommendation & PredictionRecord"]
+        DB_Dis["Save DiseaseObservation & DiseaseAnalysis"]
+        DB_Chat["Save Conversation & ChatMessage with Sources"]
+    end
+
+    A1 --> E1
+    A2 --> E2
+    A3 --> E3
+
+    E1 -->|HTTP POST with API Key| SecCheck
+    E2 -->|Multipart/Form-Data with API Key| SecCheck
+    E3 -->|HTTP POST with API Key| SecCheck
+
+    E1 -.->|On AI Service Timeout / Down| Fallback1
+    E2 -.->|On AI Service Timeout / Down| Fallback2
+    E3 -.->|On AI Service Timeout / Down| Fallback3
+
+    SecCheck -->|Crop Recommendation| P1_Schema
+    P1_Schema --> P1_Model --> P1_Inference --> P1_Format
+
+    SecCheck -->|Disease Detection| P2_Valid
+    P2_Valid --> P2_CV --> P2_Diag
+
+    SecCheck -->|Agronomic Chat| P3_Search
+    P3_Search --> P3_OllamaCheck
+    P3_OllamaCheck -->|Ollama Online| P3_OllamaRun
+    P3_OllamaCheck -->|Ollama Offline / Standby| P3_DirectCorpus
+
+    P1_Format --> E1 --> DB_Rec
+    P2_Diag --> E2 --> DB_Dis
+    P3_OllamaRun --> E3 --> DB_Chat
+    P3_DirectCorpus --> E3 --> DB_Chat
+    Fallback1 --> DB_Rec
+    Fallback2 --> DB_Dis
+    Fallback3 --> DB_Chat

@@ -1,0 +1,68 @@
+graph TD
+    subgraph ClientLayer["Frontend Client (React 18 + Vite 6)"]
+        SPA["KrishiSetu Single Page Application\n(Port 5173 / Production Web Server)"]
+        P_Farmer["Farmer Portal\n(Farms, Crops, Weather, Advisory, Orders, Analytics)"]
+        P_Buyer["Buyer Portal\n(Marketplace, Requirements, Direct Orders, Match)"]
+        P_Admin["Admin Console\n(User Management, System Health, Audit Trail)"]
+        P_Public["Public Discovery\n(Landing, Mandi Ticker, Scheme Catalog, Agro-Advisory)"]
+        SPA --> P_Farmer
+        SPA --> P_Buyer
+        SPA --> P_Admin
+        SPA --> P_Public
+    end
+
+    subgraph APILayer["Backend REST API Gateway (Node.js 20+ / Express 4.21)"]
+        Gateway["Express API Gateway & Security Middlewares\n(Port 5000 / api/v1/*)"]
+        MW_Sec["Security: Helmet, CORS, Rate Limiters, Cookie Parser"]
+        MW_Auth["Authentication: JWT Verification & RBAC Guards"]
+        
+        Gateway --> MW_Sec
+        MW_Sec --> MW_Auth
+        
+        subgraph DomainModules["Modular Express Controllers & Services"]
+            M_Auth["Auth & Identity Module"]
+            M_Farms["Farms & Field Boundaries"]
+            M_Crops["Crops, Cycles & Activities"]
+            M_Weather["Weather Engine (Open-Meteo Client)"]
+            M_AI["AI Orchestrator Client"]
+            M_Markets["Mandi Market Prices & APMC"]
+            M_Marketplace["P2P Crop Marketplace"]
+            M_Orders["Orders & Fulfillment Engine"]
+            M_Analytics["Financial & Expense Analytics"]
+            M_Schemes["Government Schemes Repository"]
+            M_Consult["Expert Consultations"]
+            M_Notif["Notification Dispatcher"]
+        end
+
+        MW_Auth --> DomainModules
+    end
+
+    subgraph PersistenceLayer["Relational Data Persistence"]
+        PrismaORM["Prisma ORM Client v5.22\n(Connection Pooling, Query Engine, Typed Schema)"]
+        DB[(Live Supabase Cloud PostgreSQL 15+\n42 Models, 15 Enums, Strict Foreign Keys)]
+        PrismaORM --> DB
+    end
+
+    subgraph AIServiceLayer["AI/ML Microservice (Python 3.11 / FastAPI 0.115)"]
+        FastAPIApp["FastAPI Service (Port 8000)\nProtected by x-api-key Authentication"]
+        RF_Model["Crop Recommendation Engine\n(Scikit-Learn Random Forest, 91.67% Accuracy)"]
+        CV_Engine["Foliar Disease Classifier\n(PlantVillage Diagnostic Pipeline)"]
+        RAG_Assistant["Agronomic Assistant Engine\n(Keyword Semantic Matching + Grounded Context)"]
+        OllamaDaemon["Local Ollama Daemon (Port 11434)\n(Llama-3 LLM Engine / Standby Fallback)"]
+        
+        FastAPIApp --> RF_Model
+        FastAPIApp --> CV_Engine
+        FastAPIApp --> RAG_Assistant
+        RAG_Assistant -.->|Grounded Inference| OllamaDaemon
+    end
+
+    subgraph ExternalServices["External Cloud & Institutional Data Providers"]
+        OpenMeteo["Open-Meteo High-Resolution Weather API\n(Live 7-Day Forecast, FAO-56 Penman-Monteith ET₀)"]
+        APMC_Feeds["State APMC Mandi Market Feeds\n(District-wise Commodity Pricing)"]
+    end
+
+    SPA -->|HTTP / JSON with JWT Bearer| Gateway
+    DomainModules --> PrismaORM
+    M_Weather -->|REST HTTP GET| OpenMeteo
+    M_Markets -->|Aggregated Mandi Records| PrismaORM
+    M_AI -->|Internal HTTP POST / JSON with API Key| FastAPIApp

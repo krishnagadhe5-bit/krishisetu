@@ -1,0 +1,33 @@
+graph TD
+    subgraph S1["1. Farm Setup & Registration"]
+        U["User (FARMER)"] -->|Register| UP["UserProfile"]
+        U -->|Add Farm| F["Farm (Location, Area, Soil, Irrigation)"]
+        F -->|Add Fields| FLD["Field (Soil Nutrient Baselines)"]
+    end
+
+    subgraph S2["2. Crop Planning & Intelligence"]
+        FLD -->|Input Conditions| AI_Rec["AI Crop Recommendation"]
+        AI_Rec -->|Select Crop| CC["CropCycle (Dates, Variety, Status)"]
+        CC -->|Log Practices| CA["CropActivity (Sowing, Irrigation, Fertilizer)"]
+        CC -->|Track Costs| EXP["Expense (Seeds, Fertilizers, Labor)"]
+    end
+
+    subgraph S3["3. Agronomic Risk Monitoring"]
+        F -->|Lat / Lon Coordinates| WTH["WeatherObservation (Open-Meteo)"]
+        WTH -->|Compute ET₀ & Window| IRR["IrrigationRecommendation & Spray Window"]
+        CC -->|Upload Leaf Photo| DIS["DiseaseObservation & DiseaseAnalysis"]
+    end
+
+    subgraph S4["4. Harvesting & Market Discovery"]
+        CC -->|Log Yield| HV["Harvest (Quantity, Quality Grade)"]
+        APMC["APMC Mandi Price Feeds"] --> MP["MarketPrice (Daily Min, Max, Modal)"]
+        MP --> MP_Forecast["Price Forecast (ARIMA Trend)"]
+    end
+
+    subgraph S5["5. Agricultural Commerce & Fulfillment"]
+        HV -->|Create Listing| LST["CropListing (Quantity, Unit Price, Grade)"]
+        B["User (BUYER)"] -->|Browse / Discover| LST
+        B -->|Place Order| ORD["Order & OrderItem"]
+        ORD -->|Record Transaction| PAY["PaymentRecord (UPI / Bank / COD)"]
+        ORD -->|Assign Logistics| SHP["Shipment (Tracking & Delivery)"]
+    end

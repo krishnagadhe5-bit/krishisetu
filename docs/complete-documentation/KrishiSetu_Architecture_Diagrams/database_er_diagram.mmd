@@ -1,0 +1,50 @@
+erDiagram
+    User ||--o| UserProfile : "has"
+    User ||--o| ExpertProfile : "has"
+    User ||--o{ Farm : "owns"
+    User ||--o{ CropListing : "lists"
+    User ||--o{ Order : "places (Buyer)"
+    User ||--o{ Consultation : "requests/answers"
+    User ||--o{ Notification : "receives"
+    User ||--o{ Conversation : "starts"
+    User ||--o{ AuditLog : "triggers"
+    User ||--o{ CropRecommendation : "requests"
+    User ||--o{ PredictionRecord : "generates"
+
+    Farm ||--o{ Field : "contains"
+    Farm ||--o{ Expense : "incurs"
+    Farm ||--o{ WeatherObservation : "records"
+    Farm ||--o{ IrrigationRecommendation : "receives"
+    Farm ||--o{ FarmScenario : "simulates"
+
+    Field ||--o{ SoilTest : "tests"
+    Field ||--o{ CropCycle : "cultivates"
+
+    Crop ||--o{ CropVariety : "has"
+    Crop ||--o{ CropCycle : "planted_in"
+    Crop ||--o{ CropListing : "categorized_as"
+    Crop ||--o{ MarketPrice : "priced_at"
+
+    CropCycle ||--o{ CropActivity : "logs"
+    CropCycle ||--o{ IrrigationRecord : "receives"
+    CropCycle ||--o{ FertilizerRecord : "applies"
+    CropCycle ||--o{ Harvest : "yields"
+    CropCycle ||--o{ DiseaseObservation : "reports"
+    CropCycle ||--o{ Expense : "tracks"
+
+    DiseaseObservation ||--o| DiseaseAnalysis : "analyzed_by"
+
+    Market ||--o{ MarketPrice : "reports"
+    MarketPrice ||--o{ PriceForecast : "forecasts"
+
+    CropListing ||--o{ OrderItem : "ordered_in"
+    CropListing ||--o{ Inquiry : "receives"
+
+    Order ||--o{ OrderItem : "contains"
+    Order ||--o{ PaymentRecord : "paid_by"
+    Order ||--o{ Shipment : "fulfilled_by"
+
+    Conversation ||--o{ ChatMessage : "contains"
+    Consultation ||--o{ ConsultationMessage : "contains"
+
+    AgriculturalDocument ||--o{ DocumentChunk : "chunked_into"

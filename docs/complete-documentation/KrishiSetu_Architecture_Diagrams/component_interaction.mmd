@@ -1,0 +1,45 @@
+sequenceDiagram
+    autonumber
+    actor Farmer as Farmer User
+    participant Frontend as React Client (Vite)
+    participant AuthContext as React Auth Context
+    participant Express as Express API Server
+    participant Prisma as Prisma ORM
+    participant Database as PostgreSQL (Supabase)
+    participant AIService as FastAPI AI Service
+    participant OpenMeteo as Open-Meteo Weather API
+
+    %% Farm Dashboard Interaction
+    Farmer->>Frontend: Accesses Farmer Dashboard
+    Frontend->>AuthContext: Verify JWT session in state
+    Frontend->>Express: GET /api/v1/farms/dashboard (Bearer Token)
+    Express->>Prisma: Fetch User Farms, Crops, Expenses, Orders
+    Prisma->>Database: SQL SELECT queries with User ID filter
+    Database-->>Prisma: User entities returned
+    Prisma-->>Express: Farm dataset
+    Express-->>Frontend: 200 OK JSON (farms, stats, activities)
+    Frontend-->>Farmer: Render Dashboard Cards & Metric Overview
+
+    %% Crop Recommendation Request
+    Farmer->>Frontend: Enters Soil & Climate Values (N, P, K, pH, etc.)
+    Farmer->>Frontend: Clicks "Generate Crop Recommendation"
+    Frontend->>Express: POST /api/v1/ai/recommend-crop (Soil payload)
+    Express->>AIService: POST /api/v1/recommend-crop (x-api-key)
+    AIService->>AIService: Load crop_rf_model.joblib & run predict_proba()
+    AIService-->>Express: 200 OK JSON (Top 3 crops with confidence & season)
+    Express->>Prisma: Save to CropRecommendation & PredictionRecord
+    Prisma->>Database: SQL INSERT
+    Database-->>Prisma: Record saved
+    Express-->>Frontend: 200 OK JSON (Recommendations)
+    Frontend-->>Farmer: Displays Top Recommended Crops & Agronomic Advice
+
+    %% Weather & Spraying Forecast
+    Farmer->>Frontend: Views Weather & Spray Safety Window
+    Frontend->>Express: GET /api/v1/weather/forecast?district=Pune
+    Express->>OpenMeteo: GET /v1/forecast (lat, lon, current, daily)
+    OpenMeteo-->>Express: 200 OK JSON (Hourly & Daily Atmospheric Metrics)
+    Express->>Express: Calculate FAO-56 Penman-Monteith ET₀ & Spraying Window
+    Express->>Prisma: Persist WeatherObservation record
+    Prisma->>Database: SQL INSERT
+    Express-->>Frontend: 200 OK JSON (Forecast, Spray Window, Risks)
+    Frontend-->>Farmer: Renders Interactive 7-Day Weather Timeline & Advisory

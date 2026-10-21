@@ -1,0 +1,38 @@
+graph LR
+    subgraph ClientHost["Client Browser / Mobile PWA"]
+        Browser["React 18 SPA (Vite Production Assets)"]
+    end
+
+    subgraph AppHost["Application Host (Local Windows Dev / Dockerized Linux)"]
+        subgraph FrontendServer["Frontend Web Server"]
+            ViteDev["Vite Dev Server / Nginx Container\nPort: 5173 / 80"]
+        end
+
+        subgraph BackendServer["API Gateway Process"]
+            NodeServer["Node.js 20+ Express Runtime\nPort: 5000\nCluster / PM2 / Systemd"]
+            UploadsStorage["Local File Uploads Storage\nPath: /uploads/ (Images & Slips)"]
+        end
+
+        subgraph AIServer["AI Microservice Process"]
+            PythonUvicorn["Python 3.11 Uvicorn Worker\nPort: 8000\nFastAPI Application"]
+            JoblibModel["Serialized Artifacts\ncrop_rf_model.joblib"]
+        end
+
+        subgraph LocalLLM["Optional Local Inference"]
+            OllamaHost["Ollama LLM Host\nPort: 11434\nModel: llama3 / standby"]
+        end
+    end
+
+    subgraph CloudInfrastructure["Cloud Infrastructure & External APIs"]
+        SupabaseCloud[("Supabase Managed Cloud PostgreSQL\nRegion: ap-southeast-1 (Mumbai / Singapore)\nPort: 5432 (SSL Required)\nConnection Pooling & Security Definer Guards")]
+        OpenMeteoCloud["Open-Meteo High-Resolution Global API\napi.open-meteo.com\nHTTPS (Port 443)"]
+    end
+
+    Browser -->|Port 5173| ViteDev
+    Browser -->|Port 5000 /api/v1| NodeServer
+    NodeServer -->|Local FS| UploadsStorage
+    NodeServer -->|Port 8000 /api/v1| PythonUvicorn
+    PythonUvicorn -->|Joblib Binary Read| JoblibModel
+    PythonUvicorn -.->|Port 11434 /api/generate| OllamaHost
+    NodeServer -->|PostgreSQL TLS TCP 5432| SupabaseCloud
+    NodeServer -->|HTTPS 443| OpenMeteoCloud

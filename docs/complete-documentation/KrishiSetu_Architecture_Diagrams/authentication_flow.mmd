@@ -1,0 +1,76 @@
+sequenceDiagram
+    autonumber
+    actor User as User (Farmer / Buyer / Expert / Admin)
+    participant Client as React Client (Axios)
+    participant RateLimiter as Express Rate Limiter (authLimiter)
+    participant Controller as Auth Controller (auth.controller.js)
+    participant Service as Auth Service (auth.service.js)
+    participant DB as PostgreSQL (Supabase)
+    participant TokenUtil as JWT Engine (jwt.sign / jwt.verify)
+
+    %% Registration
+    User->>Client: Enters registration details (Email, Password, Full Name, Role, Location)
+    Client->>RateLimiter: POST /api/v1/auth/register
+    RateLimiter->>Controller: Within limits (max 5 attempts/15m)
+    Controller->>Service: Validate with Zod RegisterSchema
+    Service->>DB: Check if email exists (prisma.user.findUnique)
+    alt Email already registered
+        DB-->>Service: Existing user record
+        Service-->>Controller: Throw 409 Conflict Error
+        Controller-->>Client: 409 Conflict ("Email already registered")
+    else New User
+        DB-->>Service: Null
+        Service->>Service: Hash password using bcrypt.hash(password, 12)
+        Service->>DB: prisma.user.create with nested UserProfile
+        DB-->>Service: Created User & Profile records
+        Service->>TokenUtil: Generate JWT Token (payload: id, email, role, status)
+        TokenUtil-->>Service: Signed JWT string (7-day validity)
+        Service-->>Controller: Return user payload and JWT token
+        Controller->>Client: 201 Created + JWT Token + User Entity
+        Client->>Client: Store token in localStorage ('krishisetu_token') & set Axios header
+    end
+
+    %% Login
+    User->>Client: Enters Email and Password
+    Client->>RateLimiter: POST /api/v1/auth/login
+    RateLimiter->>Controller: Forward valid request
+    Controller->>Service: Validate login credentials
+    Service->>DB: Find user by email (include profile)
+    alt User not found
+        DB-->>Service: Null
+        Service-->>Controller: Throw 401 Unauthorized
+        Controller-->>Client: 401 ("Invalid email or password")
+    else User Found
+        DB-->>Service: User record with passwordHash
+        Service->>Service: bcrypt.compare(password, user.passwordHash)
+        alt Password Mismatch
+            Service-->>Controller: Throw 401 Unauthorized
+            Controller-->>Client: 401 ("Invalid email or password")
+        else Password Valid
+            Service->>TokenUtil: Generate JWT Token
+            TokenUtil-->>Service: Signed JWT Token
+            Service-->>Controller: Return user details & Token
+            Controller->>Client: 200 OK + JWT Token + Role & Profile
+            Client->>Client: Persist AuthContext & Navigate to Portal
+        end
+    end
+
+    %% Protected API Call
+    User->>Client: Accesses Protected Route (e.g., /portal/farmer/farms)
+    Client->>Controller: GET /api/v1/farms (Header: "Authorization: Bearer <jwt>")
+    Controller->>Controller: authenticateToken Middleware
+    Controller->>TokenUtil: jwt.verify(token, JWT_SECRET)
+    alt Invalid or Expired Token
+        TokenUtil-->>Controller: Error (TokenExpiredError / JsonWebTokenError)
+        Controller-->>Client: 401 Unauthorized ("Invalid or expired token")
+    else Valid Token
+        TokenUtil-->>Controller: Decoded User Payload
+        Controller->>Controller: checkRole(['FARMER']) Middleware
+        alt Insufficient Role
+            Controller-->>Client: 403 Forbidden ("Access denied: required role FARMER")
+        else Authorized Role
+            Controller->>DB: Query Farms where userId == decoded.id
+            DB-->>Controller: Farm list
+            Controller-->>Client: 200 OK JSON (Farms)
+        end
+    end
