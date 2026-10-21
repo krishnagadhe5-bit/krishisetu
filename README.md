@@ -159,6 +159,7 @@ The platform has been audited with **100% test pass rates (31/31 automated tests
 Comprehensive technical documentation, architecture diagrams, and a client-ready vector PDF report are located in:
 👉 **[`docs/complete-documentation/`](docs/complete-documentation/)**
 
+- **Render Deployment Guide:** [`RENDER_DEPLOYMENT_GUIDE.md`](docs/RENDER_DEPLOYMENT_GUIDE.md)
 - **Client PDF Report:** [`KrishiSetu_Complete_Technical_Documentation.pdf`](docs/complete-documentation/KrishiSetu_Complete_Technical_Documentation.pdf)
 - **Master Documentation:** [`KrishiSetu_Complete_Technical_Documentation.md`](docs/complete-documentation/KrishiSetu_Complete_Technical_Documentation.md)
 - **API Reference Guide:** [`KrishiSetu_API_Reference.md`](docs/complete-documentation/KrishiSetu_API_Reference.md)

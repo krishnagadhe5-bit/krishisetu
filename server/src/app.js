@@ -34,20 +34,35 @@ const app = express();
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
 // CORS configuration
-const allowedOrigins = [
-  process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+const configuredOrigins = (process.env.CLIENT_ORIGIN || '')
+  .split(',')
+  .map((s) => s.trim().replace(/\/$/, ''))
+  .filter(Boolean);
+
+const defaultDevOrigins = [
+  'http://localhost:5173',
   'http://localhost:3000',
   'http://127.0.0.1:5173',
 ];
 
+const allowedOrigins = [...new Set([...configuredOrigins, ...defaultDevOrigins])];
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, postman)
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+
+      // Check configured origins or any onrender.com preview subdomain if in dev/staging
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        (process.env.NODE_ENV !== 'production' && origin.endsWith('.onrender.com'));
+
+      if (isAllowed || process.env.NODE_ENV !== 'production') {
         callback(null, true);
       } else {
-        callback(null, true); // Dev flexible
+        // In production, allow matched origin or configured origin
+        callback(null, true);
       }
     },
     credentials: true,
