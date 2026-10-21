@@ -127,8 +127,9 @@ export const CropsPage = () => {
   const allFields = farms.flatMap((f) => f.fields.map((fld) => ({ ...fld, farmName: f.name })));
 
   return (
-    <div className="space-y-6">
-      <Toaster position="top-right" />
+    <>
+      <div className="space-y-6">
+        <Toaster position="top-right" />
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
@@ -230,10 +231,11 @@ export const CropsPage = () => {
           </div>
         )}
       </div>
+      </div>
 
       {/* Modal: New Crop Cycle */}
       {showAddCycle && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 !m-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl animate-in fade-in">
             <h3 className="text-base font-bold text-gray-900 mb-4">Start New Crop Cultivation Cycle</h3>
             <form onSubmit={handleCreateCycle} className="space-y-3.5 text-xs">
@@ -334,7 +336,7 @@ export const CropsPage = () => {
 
       {/* Modal: Log Activity */}
       {showAddActivity && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 !m-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl animate-in fade-in">
             <h3 className="text-base font-bold text-gray-900 mb-4">
               Log Activity on {activeCycle?.crop.name}
@@ -410,7 +412,7 @@ export const CropsPage = () => {
 
       {/* Modal: Record Harvest */}
       {showRecordHarvest && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 !m-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl animate-in fade-in">
             <h3 className="text-base font-bold text-gray-900 mb-4">
               Record Harvest for {activeCycle?.crop.name}
@@ -485,6 +487,6 @@ export const CropsPage = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };

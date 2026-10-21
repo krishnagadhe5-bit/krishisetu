@@ -84,8 +84,9 @@ export const FarmsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Toaster position="top-right" />
+    <>
+      <div className="space-y-6">
+        <Toaster position="top-right" />
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
@@ -213,10 +214,11 @@ export const FarmsPage = () => {
           </button>
         </div>
       )}
+      </div>
 
       {/* Modal: Add Farm */}
       {showAddFarm && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 !m-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl animate-in fade-in zoom-in-95">
             <h3 className="text-base font-bold text-gray-900 mb-4">Register New Agricultural Farm</h3>
             <form onSubmit={handleCreateFarm} className="space-y-3.5 text-xs">
@@ -320,7 +322,7 @@ export const FarmsPage = () => {
 
       {/* Modal: Add Field */}
       {showAddField && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 !m-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl animate-in fade-in zoom-in-95">
             <h3 className="text-base font-bold text-gray-900 mb-4">Add Field Plot to {selectedFarm.name}</h3>
             <form onSubmit={handleCreateField} className="space-y-3.5 text-xs">
@@ -367,6 +369,6 @@ export const FarmsPage = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
