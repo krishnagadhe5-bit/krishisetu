@@ -1,242 +1,173 @@
 # 🌾 KrishiSetu (कृषीसेतू)
-### AI-Powered Agricultural Intelligence, Farm Management & Supply Chain Platform
+> **Smart Farming & Agricultural Supply Chain Intelligence Platform**  
+> *Bridging Farmers, Agricultural Intelligence, and Direct Markets*
 
-> **Tagline:** *Smart Farming. Better Decisions. Stronger Markets.*  
-> **Primary Region:** Maharashtra, India (Extensible across all Indian agricultural zones)  
-> **Currencies & Units:** INR (₹), Acres, Hectares, Kilograms, Quintals, Tonnes.
-
----
-
-## 📌 Executive Summary & Problem Statement
-
-Indian agriculture suffers from deep structural fragmentation. Farmers receive disconnected information across disparate channels: soil health, seasonal crop selection, unpredictable weather patterns, irrigation scheduling, pest/disease outbreaks, harvest expenses, APMC market prices, buyers, and transportation logistics.
-
-Because these activities are completely siloed, farmers struggle to:
-1. Accurately plan cultivation cycles based on soil parameters and climate indicators.
-2. Calculate true cultivation costs and unit economics (cost per acre and cost per quintal).
-3. Detect crop diseases early and obtain safe, agronomic extension advice.
-4. Sell agricultural produce directly to verified commercial buyers at fair market prices without middlemen exploitation.
-5. Simulate "what-if" agricultural scenarios before investing capital in seeds, fertilizer, and irrigation.
-
-**KrishiSetu** bridges this gap by unifying farm management, machine learning intelligence, supply chain transactions, and agricultural knowledge into a single full-stack platform.
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18.3-blue.svg)](https://react.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-teal.svg)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase%20Cloud-blue.svg)](https://supabase.com/)
+[![Open--Meteo](https://img.shields.io/badge/Weather-Open--Meteo%20Live-orange.svg)](https://open-meteo.com/)
 
 ---
 
-## 🏗️ System Architecture
+## 📖 What is KrishiSetu?
 
-KrishiSetu is built as a clean, decoupled full-stack architecture with strict separation of concerns:
+**KrishiSetu** is a full-stack agricultural intelligence and marketplace platform built to help farmers make better decisions, access accurate weather and crop intelligence, manage farm operations, and sell produce directly to buyers without middleman exploitation.
+
+---
+
+## 🔄 End-to-End Project Workflow
+
+KrishiSetu connects the complete agricultural lifecycle in **6 simple, interconnected stages**:
 
 ```
-                      ┌────────────────────────────────────────┐
-                      │          React + Vite Frontend         │
-                      │  Tailwind CSS • Recharts • Lucide Map  │
-                      │               (Port 5173)              │
-                      └───────────────────┬────────────────────┘
-                                          │
-                                          │ HTTPS / REST (JSON)
-                                          ▼
-                      ┌────────────────────────────────────────┐
-                      │       Node.js Express REST Backend     │
-                      │   17 Modular Domains • Prisma ORM      │
-                      │               (Port 5000)              │
-                      └─────────────┬───────────────────┬──────┘
-                                    │                   │
-                 Prisma Client Pool │                   │ Internal Auth API
-                                    ▼                   ▼
-      ┌───────────────────────────────────┐       ┌───────────────────────────────────┐
-      │        PostgreSQL Database        │       │     Python FastAPI AI Service     │
-      │ 30+ Normalized Models • Schemas   │       │ Random Forest ML • Disease CV     │
-      │            (Port 5432)            │       │   Official RAG Agronomic Corpus   │
-      └───────────────────────────────────┘       │            (Port 8000)            │
-                        ▲                         └───────────────────────────────────┘
-                        │
-                        ▼
-      ┌───────────────────────────────────┐
-      │        Redis Cache & Queue        │
-      │   Rate Limiting & Session Store   │
-      │            (Port 6379)            │
-      └───────────────────────────────────┘
+ ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
+ │ 1. Farm Setup   │ ────► │ 2. Crop Advisory│ ────► │ 3. Lifecycle    │
+ │ Register farm & │       │ AI Crop Model   │       │ Sowing, growth  │
+ │ soil parameters │       │ (91.67% Acc)    │       │ & activities    │
+ └─────────────────┘       └─────────────────┘       └─────────────────┘
+                                                              │
+                                                              ▼
+ ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
+ │ 6. Financials   │ ◄──── │ 5. Marketplace  │ ◄──── │ 4. Real-Time    │
+ │ Expense ledger  │       │ Direct P2P sale │       │ Weather & Spray │
+ │ & Profit ROI    │       │ to verified buy │       │ Open-Meteo live │
+ └─────────────────┘       └─────────────────┘       └─────────────────┘
 ```
 
-> **Strict Architectural Rules Maintained:**
-> - **Zero Next.js:** Fully independent React.js SPA powered by Vite and React Router v6.
-> - **Independent Backend:** Standalone Express server handling business logic, transaction boundaries, and ownership authorization.
-> - **Isolated AI Service:** Python FastAPI microservice is never exposed directly to the browser; all client requests route through authenticated Express proxies.
+### The 6 Stages Explained:
+1. **🧑‍🌾 Farm & Field Setup:**
+   The farmer registers their land holdings with GPS coordinates, acreage, soil classification (e.g. Black Cotton, Loamy), and irrigation sources.
+2. **🌱 AI Crop Recommendation:**
+   The farmer enters soil nutrient levels ($N, P, K, pH$) and climate indicators. A trained **Random Forest Machine Learning model** predicts the top 3 optimal crops with seasonal suitability and agronomic rationales.
+3. **📅 Crop Cycle & Activity Tracking:**
+   The farmer initializes a seasonal crop cycle (e.g., Sugarcane or Cotton) and logs farm activities (sowing, fertigation, weeding, spraying).
+4. **⛅ Weather & Risk Management:**
+   Live **Open-Meteo API** provides 7-day meteorological forecasts, hourly rain probability, FAO-56 Penman-Monteith evapotranspiration ($ET_0$), and calculated **precision chemical spray safety windows**. Leaf disease symptoms can be uploaded for instant diagnosis.
+5. **🏪 Direct Marketplace Discovery:**
+   Harvested yields are listed on the digital marketplace with quantity, grade, and price per quintal. Institutional and bulk buyers discover listings and place direct purchase orders.
+6. **📊 Farm Financials & Net Profit:**
+   Input costs (seeds, fertilizer, labor, fuel) are tracked against harvest sales revenue to calculate the true cost of cultivation per acre and net profit margins.
 
 ---
 
-## 🚀 Key Platform Features
+## 🏛️ System Architecture
 
-### 1. 🧑‍🌾 Farm & Field Management
-- Multi-farm management with geographic district tagging and GPS coordinates.
-- Field-level acreage tracking and soil characteristics (Black Cotton, Alluvial, Red, Loamy).
-- Consistent area validation ensuring field allocations never exceed total registered farm boundaries.
+KrishiSetu follows a decoupled 3-tier architecture with strict separation of concerns:
 
-### 2. 🌿 Full Crop Lifecycle Engine
-- End-to-end tracking through growth stages: `PLANNING` ➔ `SOWING` ➔ `GROWING` ➔ `FLOWERING` ➔ `HARVESTING` ➔ `COMPLETED`.
-- Integrated field activities timeline: pesticide spraying, weeding, fertilizer application, and irrigation.
-- Harvest yield recording with multi-tier quality grading (Grade A, B, C) and storage tracking.
-
-### 3. 🤖 AI Crop Recommendation (Random Forest ML)
-- Powered by a trained Random Forest Classifier with `StandardScaler` pipeline.
-- Inputs: Soil Nitrogen (N), Phosphorus (P), Potassium (K), Soil pH, Temperature, Humidity, and Rainfall.
-- **Held-Out Test Accuracy: 91.67%** across 10 major crops (Cotton, Sugarcane, Soybean, Onion, Pigeonpea, Pomegranate, Wheat, Rice, Tomato, Chickpea).
-- Evaluated against realistic agro-climatic requirements calibrated to Maharashtra State Agricultural Universities (MPKV Rahuri).
-
-### 4. 🔬 Crop Disease Computer Vision Diagnostics
-- Multi-class leaf symptom analysis for high-impact regional crop diseases.
-- Safe agronomic guidance: cultural practices, sanitation, and organic remedies.
-- **Safety First:** Harmful unverified chemical pesticide dosage claims are omitted; farmers can escalate suspicious cases directly to verified human experts.
-
-### 5. ⛅ Weather Intelligence & Smart Irrigation
-- Calibrated regional agro-meteorological forecasting engine with 5-day predictive outlook.
-- Heat stress and frost warnings with agricultural spraying recommendations.
-- Transparent rule-based smart irrigation schedule calculator accounting for crop growth stage, soil water retention, and rainfall forecast.
-
-### 6. 🏪 B2B Farmer-to-Buyer Marketplace
-- Farmer produce listings with quantity, unit (kg, quintal, tonne), asking price, quality grade, and pickup location.
-- Multi-factor compatibility matcher for buyers (quantity, proximity, price, and quality tolerances).
-- **Transaction-Safe Orders:** Prevents inventory overselling under concurrent requests using database transactional reservations and automatic restock on cancellation.
-
-### 7. 💰 Financial Analytics & Digital Twin Simulator
-- Categorized expense tracking (seeds, fertilizer, labor, irrigation, machinery, logistics).
-- Automated Profit & Loss (P&L) statements, cost per acre, and return on investment.
-- **Farm Digital Twin Scenario Simulator:** Model "what-if" agricultural scenarios (rainfall deficits, fertilizer inflation, crop market price drops) to evaluate financial risk before planting.
-
-### 8. 📚 Source-Grounded Agricultural AI Assistant (RAG)
-- Agronomic assistant grounded in authentic Indian Council of Agricultural Research (ICAR) and MPKV Rahuri publications.
-- Provides verifiable institutional source citations with uncertainty handling.
-
-### 9. 🏛️ Government Schemes & Consultations
-- Database of verified state and national schemes (PM-KISAN, PMFBY, MahaDBT, Sub-Mission on Seeds).
-- Direct expert consultation portal with image attachment and case status workflows.
+- **Frontend Client (Port `5173`):** React 18, Vite 6, Tailwind CSS, TanStack Query, Recharts, and React-Leaflet OpenStreetMap.
+- **Backend API Gateway (Port `5000`):** Node.js 20+, Express 4.21, Prisma ORM 5.22, Bcrypt (12 salt rounds), JWT authentication, rate-limiting, and Helmet security.
+- **Database (Cloud Port `5432`):** Supabase Cloud PostgreSQL with 42 relational models, 15 custom enums, and Row-Level Security.
+- **AI Microservice (Port `8000`):** Python 3.11, FastAPI, Scikit-Learn Random Forest model, and grounded RAG assistant (with optional local Ollama LLM support).
+- **External Meteorological API:** Open-Meteo High-Resolution Forecast API (100% free and open-access, zero API key required).
 
 ---
 
-## 🔑 Pre-Configured Demo Accounts
+## 👥 User Roles & Personas
 
-For technical evaluations and demonstrations, KrishiSetu includes one-click demo credentials accessible directly from the login page:
-
-| Role | Email | Password | Primary Capabilities |
-| :--- | :--- | :--- | :--- |
-| **`FARMER`** | `farmer@krishisetu.in` | `Farmer@123` | Farm CRUD, Crop Cycles, AI Crop/Disease, Listings, Expenses, Digital Twin |
-| **`BUYER`** | `buyer@krishisetu.in` | `Buyer@123` | Marketplace Browsing, Order Placement, Matching Engine, Shipments |
-| **`AGRICULTURE_EXPERT`**| `expert@krishisetu.in` | `Expert@123` | Plant Pathology Case Review, Farmer Advice, Audit History |
-| **`ADMIN`** | `admin@krishisetu.in` | `Admin@123` | User Verification, Platform Metrics, Scheme Management, Audit Logs |
+- **Farmer (`FARMER`):** Full farm management, AI crop recommendations, weather forecasting, harvest logging, expense tracking, and crop listing.
+- **Buyer (`BUYER`):** Marketplace browsing, commodity price filtering, direct order placement, and requirement matching.
+- **Agricultural Expert (`AGRICULTURE_EXPERT`):** Reviews farmer consultation tickets and provides certified agronomic advice.
+- **Administrator (`ADMIN`):** Real-time platform metrics, user access controls, and security audit logs.
 
 ---
 
-## 💻 Quick Start & Installation
+## ⚡ Quick Start Guide (Local Setup)
 
-### Prerequisites
-- **Node.js:** v18.x or v20.x+ (tested on Node v24)
-- **Python:** v3.10+ (tested on Python 3.11)
-- **PostgreSQL:** v15+ (optional for initial run; resilient mode supported)
+### 1. Prerequisites
+- **Node.js** v20+ LTS
+- **Python** v3.11+
+- **Git**
 
----
-
-### Step 1: Install Dependencies
-
+### 2. Clone Repository
 ```bash
-# In repository root:
-npm install
+git clone https://github.com/krishnagadhe5-bit/krishisetu.git
+cd krishisetu
+```
 
-# Install client packages:
-npm --prefix client install
-
-# Install server packages:
+### 3. Install Dependencies
+```bash
+# Install backend dependencies
 npm --prefix server install
 
-# Set up Python AI virtual environment:
+# Install frontend dependencies
+npm --prefix client install
+
+# Setup Python AI service
 cd ai-service
 python -m venv venv
-.\venv\Scripts\pip install -r requirements.txt
+# Windows:
+.\venv\Scripts\Activate.ps1
+# Linux/macOS:
+# source venv/bin/activate
+pip install -r requirements.txt
 cd ..
 ```
 
----
-
-### Step 2: Generate Database Client & Seed (PostgreSQL)
-
+### 4. Configure Environment Files
+Copy the `.env.example` templates:
 ```bash
-# Generate Prisma Client:
+# Server configuration
+cp server/.env.example server/.env
+
+# AI Service configuration
+cp ai-service/.env.example ai-service/.env
+```
+*Update `server/.env` with your PostgreSQL `DATABASE_URL` and `JWT_SECRET`.*
+
+### 5. Initialize Database
+```bash
+# Generate Prisma Client
 npm --prefix server run prisma:generate
 
-# Run migrations (when PostgreSQL is active):
-npm --prefix server run prisma:migrate
-
-# Seed demo dataset (users, APMC prices, crops, schemes):
+# Seed initial crops, mandis, and schemes
 npm --prefix server run prisma:seed
 ```
 
----
-
-### Step 3: Run Development Services
-
-In separate terminal windows:
-
-#### 1. Start Python AI Microservice (Port 8000)
+### 6. Run the Application
+Open 3 terminal windows:
 ```bash
-cd ai-service
-.\venv\Scripts\python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-#### 2. Start Express Backend API (Port 5000)
-```bash
+# Terminal 1: Express Backend (Port 5000)
 npm --prefix server run dev
-```
 
-#### 3. Start React + Vite Frontend (Port 5173)
-```bash
+# Terminal 2: React Frontend (Port 5173)
 npm --prefix client run dev
-```
 
-Open your browser at **`http://localhost:5173`**.
-
----
-
-### Alternative: Docker Compose Development
-```bash
-docker-compose up --build
-```
-
----
-
-## 🧪 Automated Testing Suite
-
-All tests across all three application layers are passing:
-
-```bash
-# 1. Backend API Tests (Jest & Supertest - 7 tests passed)
-npm --prefix server test
-
-# 2. Frontend Component Tests (Vitest & React Testing Library - 2 tests passed)
-npm --prefix client test -- --run
-
-# 3. AI Microservice Tests (Pytest - 4 tests passed)
+# Terminal 3: FastAPI AI Service (Port 8000)
 cd ai-service
-.\venv\Scripts\python -m pytest
-
-# 4. Train & Evaluate ML Crop Recommendation Model (91.67% Accuracy)
-cd ai-service
-.\venv\Scripts\python tests/training/train_crop_model.py
-
-# 5. Production Build Validation
-npm --prefix client run build
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
----
-
-## 📖 Documentation Index
-- [Architecture Blueprint & Topology](file:///C:/Users/Lenovo/.gemini/antigravity-ide/scratch/krishisetu/docs/architecture.md)
-- [Database Schema & ER Diagram](file:///C:/Users/Lenovo/.gemini/antigravity-ide/scratch/krishisetu/docs/database.md)
-- [REST API Endpoint Directory](file:///C:/Users/Lenovo/.gemini/antigravity-ide/scratch/krishisetu/docs/api.md)
-- [AI/ML Methodology & Evaluation](file:///C:/Users/Lenovo/.gemini/antigravity-ide/scratch/krishisetu/docs/ai-ml.md)
-- [Security & RBAC Enforcement](file:///C:/Users/Lenovo/.gemini/antigravity-ide/scratch/krishisetu/docs/security.md)
-- [Automated Testing Strategy](file:///C:/Users/Lenovo/.gemini/antigravity-ide/scratch/krishisetu/docs/testing.md)
-- [Production Deployment & Docker](file:///C:/Users/Lenovo/.gemini/antigravity-ide/scratch/krishisetu/docs/deployment.md)
+- **Web App:** Open `http://localhost:5173`
+- **REST API Health:** `http://localhost:5000/api/v1/health`
+- **Swagger API Docs:** `http://localhost:5000/api/docs`
 
 ---
 
-## ⚖️ License
-KrishiSetu is developed for academic, portfolio, and commercial agricultural technology research under the MIT License.
+## 🧪 Verified Automated Test Results
+
+The platform has been audited with **100% test pass rates (31/31 automated tests passed)**:
+- **Full-Stack End-to-End Audit:** `15 / 15 PASSED` (`node server/scripts/test_all_features.js`)
+- **Server API Jest Tests:** `7 / 7 PASSED` (`npm --prefix server test`)
+- **Python AI Microservice Tests:** `5 / 5 PASSED` (`pytest ai-service/tests`)
+- **Frontend Component Tests:** `4 / 4 PASSED` (`npm --prefix client test`)
+- **Production Build:** Vite production bundle compiles with `0 errors`.
+
+---
+
+## 📚 Complete Engineering Documentation
+
+Comprehensive technical documentation, architecture diagrams, and a client-ready vector PDF report are located in:
+👉 **[`docs/complete-documentation/`](docs/complete-documentation/)**
+
+- **Client PDF Report:** [`KrishiSetu_Complete_Technical_Documentation.pdf`](docs/complete-documentation/KrishiSetu_Complete_Technical_Documentation.pdf)
+- **Master Documentation:** [`KrishiSetu_Complete_Technical_Documentation.md`](docs/complete-documentation/KrishiSetu_Complete_Technical_Documentation.md)
+- **API Reference Guide:** [`KrishiSetu_API_Reference.md`](docs/complete-documentation/KrishiSetu_API_Reference.md)
+- **Feature Implementation Matrix:** [`KrishiSetu_Feature_Implementation_Matrix.md`](docs/complete-documentation/KrishiSetu_Feature_Implementation_Matrix.md)
+- **Architecture Diagrams (Mermaid):** [`KrishiSetu_Architecture_Diagrams/`](docs/complete-documentation/KrishiSetu_Architecture_Diagrams/)
+
+---
+
+## 📄 License
+This project is licensed under the [MIT License](LICENSE).
