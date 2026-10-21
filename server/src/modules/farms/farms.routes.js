@@ -10,13 +10,13 @@ const router = Router();
 router.use(authenticate);
 
 // Farmer dashboard overview
-router.get('/dashboard', authorizeRoles('FARMER', 'ADMIN'), FarmsController.getDashboard);
+router.get('/dashboard', authorizeRoles('FARMER'), FarmsController.getDashboard);
 
 // CRUD
-router.post('/', authorizeRoles('FARMER', 'ADMIN'), validateRequest(createFarmSchema), FarmsController.createFarm);
-router.get('/', authorizeRoles('FARMER', 'ADMIN'), FarmsController.getFarms);
-router.get('/:id', authorizeRoles('FARMER', 'ADMIN', 'AGRICULTURE_EXPERT'), FarmsController.getFarmById);
-router.patch('/:id', authorizeRoles('FARMER', 'ADMIN'), validateRequest(updateFarmSchema), FarmsController.updateFarm);
-router.delete('/:id', authorizeRoles('FARMER', 'ADMIN'), FarmsController.deleteFarm);
+router.post('/', authorizeRoles('FARMER'), validateRequest(createFarmSchema), FarmsController.createFarm);
+router.get('/', authorizeRoles('FARMER'), FarmsController.getFarms);
+router.get('/:id', authorizeRoles('FARMER'), FarmsController.getFarmById);
+router.patch('/:id', authorizeRoles('FARMER'), validateRequest(updateFarmSchema), FarmsController.updateFarm);
+router.delete('/:id', authorizeRoles('FARMER'), FarmsController.deleteFarm);
 
 export default router;

@@ -15,14 +15,6 @@ export class AuthService {
       throw err;
     }
 
-    // Role check: Admin cannot be self-registered
-    if (role === 'ADMIN') {
-      const err = new Error('Cannot register directly as Administrator');
-      err.statusCode = 403;
-      err.isOperational = true;
-      throw err;
-    }
-
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
@@ -46,18 +38,6 @@ export class AuthService {
         },
         include: { profile: true },
       });
-
-      if (role === 'AGRICULTURE_EXPERT') {
-        await tx.expertProfile.create({
-          data: {
-            userId: user.id,
-            specialization: specialization || 'General Agronomy',
-            qualifications: qualifications || 'B.Sc. Agriculture',
-            experienceYears: experienceYears || 1,
-            verified: false,
-          },
-        });
-      }
 
       await tx.auditLog.create({
         data: {
@@ -93,7 +73,7 @@ export class AuthService {
   static async login(email, password) {
     const user = await prisma.user.findUnique({
       where: { email },
-      include: { profile: true, expertProfile: true },
+      include: { profile: true },
     });
 
     if (!user) {
@@ -141,7 +121,6 @@ export class AuthService {
         role: user.role,
         accountStatus: user.accountStatus,
         profile: user.profile,
-        expertProfile: user.expertProfile,
       },
       token,
     };
@@ -150,7 +129,7 @@ export class AuthService {
   static async getMe(userId) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { profile: true, expertProfile: true },
+      include: { profile: true },
     });
 
     if (!user) {
@@ -166,7 +145,6 @@ export class AuthService {
       role: user.role,
       accountStatus: user.accountStatus,
       profile: user.profile,
-      expertProfile: user.expertProfile,
     };
   }
 

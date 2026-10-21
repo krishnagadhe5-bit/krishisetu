@@ -30,8 +30,6 @@ export const Navbar = ({ onToggleSidebar }) => {
         return '/portal/farmer';
       case 'BUYER':
         return '/portal/buyer';
-      case 'ADMIN':
-        return '/portal/admin';
       default:
         return '/';
     }

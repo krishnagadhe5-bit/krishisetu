@@ -12,10 +12,10 @@ router.get('/catalog/:id', CropsController.getCropById);
 // Protected crop cycle routes
 router.use(authenticate);
 
-router.post('/cycles', authorizeRoles('FARMER', 'ADMIN'), CropsController.createCropCycle);
-router.get('/cycles', authorizeRoles('FARMER', 'ADMIN', 'AGRICULTURE_EXPERT'), CropsController.getFarmerCycles);
-router.get('/cycles/:id', authorizeRoles('FARMER', 'ADMIN', 'AGRICULTURE_EXPERT'), CropsController.getCropCycleById);
-router.post('/cycles/:id/activities', authorizeRoles('FARMER', 'ADMIN'), CropsController.addActivity);
-router.post('/cycles/:id/harvests', authorizeRoles('FARMER', 'ADMIN'), CropsController.recordHarvest);
+router.post('/cycles', authorizeRoles('FARMER'), CropsController.createCropCycle);
+router.get('/cycles', authorizeRoles('FARMER'), CropsController.getFarmerCycles);
+router.get('/cycles/:id', authorizeRoles('FARMER'), CropsController.getCropCycleById);
+router.post('/cycles/:id/activities', authorizeRoles('FARMER'), CropsController.addActivity);
+router.post('/cycles/:id/harvests', authorizeRoles('FARMER'), CropsController.recordHarvest);
 
 export default router;

@@ -21,30 +21,10 @@ export class ConsultationsService {
     return consultation;
   }
 
-  static async getConsultations(userId, role) {
-    if (role === 'AGRICULTURE_EXPERT') {
-      const expert = await prisma.expertProfile.findUnique({ where: { userId } });
-      return prisma.consultation.findMany({
-        where: {
-          OR: [
-            { status: 'OPEN' },
-            { expertId: expert?.id },
-          ],
-        },
-        include: {
-          farmer: { select: { email: true, profile: true } },
-          expert: { include: { user: { select: { profile: true } } } },
-          messages: { orderBy: { createdAt: 'desc' }, take: 1 },
-        },
-        orderBy: { createdAt: 'desc' },
-      });
-    }
-
-    // Farmer view
+  static async getConsultations(userId) {
     return prisma.consultation.findMany({
       where: { farmerId: userId },
       include: {
-        expert: { include: { user: { select: { profile: true } } } },
         messages: { orderBy: { createdAt: 'desc' }, take: 1 },
       },
       orderBy: { createdAt: 'desc' },
@@ -56,7 +36,6 @@ export class ConsultationsService {
       where: { id: consultationId },
       include: {
         farmer: { select: { id: true, email: true, profile: true } },
-        expert: { include: { user: { select: { profile: true } } } },
         messages: { orderBy: { createdAt: 'asc' } },
       },
     });
@@ -74,7 +53,6 @@ export class ConsultationsService {
   static async addMessage(userId, consultationId, data) {
     const consultation = await prisma.consultation.findUnique({
       where: { id: consultationId },
-      include: { expert: true },
     });
 
     if (!consultation) {
@@ -82,19 +60,6 @@ export class ConsultationsService {
       err.statusCode = 404;
       err.isOperational = true;
       throw err;
-    }
-
-    // Check if user is an expert responding
-    const expertProfile = await prisma.expertProfile.findUnique({ where: { userId } });
-    if (expertProfile && !consultation.expertId) {
-      // Assign expert to this consultation
-      await prisma.consultation.update({
-        where: { id: consultationId },
-        data: {
-          expertId: expertProfile.id,
-          status: 'IN_PROGRESS',
-        },
-      });
     }
 
     const message = await prisma.consultationMessage.create({
@@ -105,20 +70,6 @@ export class ConsultationsService {
         imageUrls: data.imageUrls || [],
       },
     });
-
-    // Notify farmer or expert
-    const notifyId = userId === consultation.farmerId ? consultation.expert?.userId : consultation.farmerId;
-    if (notifyId) {
-      await prisma.notification.create({
-        data: {
-          userId: notifyId,
-          type: 'CONSULTATION_RESPONSE',
-          title: 'Consultation Reply',
-          message: `New message on consultation "${consultation.subject}": ${data.message.slice(0, 80)}`,
-          data: { consultationId },
-        },
-      });
-    }
 
     return message;
   }

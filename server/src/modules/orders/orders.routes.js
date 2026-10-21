@@ -7,7 +7,7 @@ const router = Router();
 
 router.use(authenticate);
 
-router.post('/', authorizeRoles('BUYER', 'ADMIN'), OrdersController.createOrder);
+router.post('/', authorizeRoles('BUYER'), OrdersController.createOrder);
 router.get('/', OrdersController.getOrders);
 router.get('/:id', OrdersController.getOrderById);
 router.patch('/:id/status', OrdersController.updateStatus);

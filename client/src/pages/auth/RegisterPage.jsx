@@ -13,7 +13,6 @@ export const RegisterPage = () => {
     phone: '',
     state: 'Maharashtra',
     district: 'Pune',
-    specialization: '',
   });
 
   const [loading, setLoading] = useState(false);

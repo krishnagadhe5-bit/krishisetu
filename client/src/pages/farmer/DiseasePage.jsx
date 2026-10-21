@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { ShieldAlert, Upload, Image as ImageIcon, CheckCircle2, AlertTriangle, ArrowRight, RefreshCw, UsersRound } from 'lucide-react';
+import { ShieldAlert, Upload, Image as ImageIcon, CheckCircle2, AlertTriangle, ArrowRight, RefreshCw, Bot } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 
 export const DiseasePage = () => {
@@ -140,13 +140,13 @@ export const DiseasePage = () => {
               </div>
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <p className="text-[10px] text-gray-400">Need confirmation from a human agronomist?</p>
+                <p className="text-[10px] text-gray-400">Need customized treatment advice for your soil and climate?</p>
                 <Link
-                  to="/portal/farmer/consultations"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-50 text-blue-700 font-bold text-xs border border-blue-200 hover:bg-blue-100 transition"
+                  to="/portal/farmer/assistant"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-agri-50 text-agri-700 font-bold text-xs border border-agri-200 hover:bg-agri-100 transition"
                 >
-                  <UsersRound className="w-3.5 h-3.5" />
-                  Refer Case to Expert
+                  <Bot className="w-3.5 h-3.5" />
+                  Ask AI Agronomist
                 </Link>
               </div>
             </div>

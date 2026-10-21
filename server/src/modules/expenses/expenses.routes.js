@@ -7,8 +7,8 @@ const router = Router();
 
 router.use(authenticate);
 
-router.post('/', authorizeRoles('FARMER', 'ADMIN'), ExpensesController.createExpense);
-router.get('/farm/:farmId', authorizeRoles('FARMER', 'ADMIN'), ExpensesController.getExpensesByFarm);
-router.delete('/:id', authorizeRoles('FARMER', 'ADMIN'), ExpensesController.deleteExpense);
+router.post('/', authorizeRoles('FARMER'), ExpensesController.createExpense);
+router.get('/farm/:farmId', authorizeRoles('FARMER'), ExpensesController.getExpensesByFarm);
+router.delete('/:id', authorizeRoles('FARMER'), ExpensesController.deleteExpense);
 
 export default router;

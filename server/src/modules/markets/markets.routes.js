@@ -9,6 +9,6 @@ router.get('/', MarketsController.getMarkets);
 router.get('/prices', MarketsController.getMarketPrices);
 router.get('/prices/history/:cropId', MarketsController.getPriceHistory);
 router.get('/forecast', MarketsController.getForecast);
-router.post('/import', authenticate, authorizeRoles('ADMIN'), MarketsController.importPrices);
+router.post('/import', authenticate, MarketsController.importPrices);
 
 export default router;

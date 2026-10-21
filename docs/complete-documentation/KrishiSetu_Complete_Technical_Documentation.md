@@ -47,11 +47,9 @@ Smallholder and commercial farmers face high operational uncertainty caused by e
 4. **Institutional access** by consolidating state and central government agricultural welfare schemes into an actionable directory.
 
 ### 1.3 Target Users & Platform Personas
-The system implements strict Role-Based Access Control (RBAC) across four primary user personas:
-1. **Farmers (`FARMER`):** Landholders, tenant farmers, and agricultural producers managing farm holdings, sub-plot fields, crop lifecycles, disease scouting, and harvested produce listings.
+The system implements strict Role-Based Access Control (RBAC) focused exclusively on two primary user personas:
+1. **Farmers (`FARMER`):** Landholders, tenant farmers, and agricultural producers managing farm holdings, sub-plot fields, crop lifecycles, disease scouting, and direct harvested produce listings.
 2. **Institutional & Bulk Buyers (`BUYER`):** Food processing enterprises, agricultural aggregators, retail supermarket chains, and commission agents seeking direct sourcing from verified producers.
-3. **Agricultural Experts (`AGRICULTURE_EXPERT`):** Agronomists, extension officers, and university researchers answering advisory consultations and reviewing farm diagnostic submissions.
-4. **System Administrators (`ADMIN`):** Platform operators managing system health, platform telemetry, user verification, and immutable security audit logs.
 
 ### 1.4 Core Architecture & Integration
 KrishiSetu operates as a modern micro-service-aligned, three-tier enterprise web application:
@@ -167,8 +165,8 @@ Indian agriculture sustains over 140 million farm families, yet operational effi
 - **Who Experiences It:** Farmers during critical crop stages (germination, flowering, boll formation).
 - **Why It Matters:** A 48-hour delay in addressing acute pests like Pink Bollworm or Fall Armyworm can decimate an entire crop cycle.
 - **Limitations of Manual Workflows:** Extension hotlines (Kisan Call Centers) frequently experience high call volumes, while local input sellers may offer unverified advice.
-- **KrishiSetu Solution:** Dual-engine Agricultural AI Assistant: a grounded 24/7 agricultural chatbot providing ICAR and state university-certified package of practices, coupled with a formal Expert Consultation ticketing system for complex agronomic issues.
-- **Codebase Evidence:** `ai-service/app/api/routes/chat.py`, `ai-service/app/services/ollama_service.py`, `server/src/modules/consultations/consultations.service.js`, `client/src/pages/farmer/AssistantPage.jsx`.
+- **KrishiSetu Solution:** Grounded Agricultural AI Assistant: a 24/7 agricultural chatbot providing ICAR and state university-certified package of practices with verified source citations.
+- **Codebase Evidence:** `ai-service/app/api/routes/chat.py`, `ai-service/app/services/ollama_service.py`, `server/src/modules/ai/ai.service.js`, `client/src/pages/farmer/AssistantPage.jsx`.
 - **Limitations:** The automated assistant is an advisory tool; severe or quarantine pest outbreaks require on-site field verification by a qualified entomologist.
 
 ---
@@ -190,7 +188,7 @@ KrishiSetu provides an interconnected, data-driven operating platform where each
 | **6. Middleman Lock-in** | P2P marketplace connecting farmers directly with institutional buyers | `marketplace.service.js`, `orders.service.js`, `ListingsPage.jsx` | **VERIFIED** | Broadens market access and price transparency | Logistics and physical freight coordination handled peer-to-peer |
 | **7. Inconsistent Accounting** | Categorized agricultural expense ledger and automated financial ROI charts | `expenses.service.js`, `analytics.service.js`, `AnalyticsPage.jsx` | **VERIFIED** | Granular visibility into cost of cultivation per acre | Manual ledger entry; automated OCR receipt parsing planned |
 | **8. Fragmented Schemes** | Curated catalog of central and state agricultural welfare programs | `schemes.service.js`, `PublicSchemesPage.jsx` | **VERIFIED** | Eliminates confusion regarding subsidy eligibility and paperwork | External application processing takes place on state portals |
-| **9. Delayed Extension Advice** | Grounded AI Chat Assistant (Ollama + ICAR corpus) & Expert Ticketing | `chat.py`, `ollama_service.py`, `consultations.service.js` | **VERIFIED** | 24/7 instant verified agronomic advice with official citations | Advisory guidance only; quarantine pests need on-site inspection |
+| **9. Delayed Extension Advice** | Grounded AI Chat Assistant (Ollama + ICAR corpus) | `chat.py`, `ollama_service.py`, `ai.service.js` | **VERIFIED** | 24/7 instant verified agronomic advice with official citations | Advisory guidance only; quarantine pests need on-site inspection |
 
 ### 3.3 End-to-End Farmer Workflow
 1. **Registration & Onboarding:** The farmer signs up with an arbitrary email, selecting the `FARMER` role and designating their district and state.
@@ -330,7 +328,7 @@ This section provides exhaustive, 20-point technical documentation for all 28 fe
 ### Feature 1: User Registration and Login
 1. **Purpose:** Securely authenticates users, verifies identity, and issues signed cryptographic JWT tokens.
 2. **Problem Addressed:** Prevents unauthorized platform access, isolates farmer and buyer records, and ensures data sovereignty.
-3. **Target User & Role:** Public visitors, all platform roles (`FARMER`, `BUYER`, `AGRICULTURE_EXPERT`, `ADMIN`).
+3. **Target User & Role:** Public visitors, registered platform users (`FARMER`, `BUYER`).
 4. **Frontend Placement:** `/login`, `/register`, Navbar user dropdown.
 5. **User Inputs:** Email, password, full name, role selection, phone number, state, district.
 6. **Output Displayed:** User profile header, role-tailored navigation options, personalized dashboard, and notification toasts.
@@ -399,51 +397,51 @@ This section provides exhaustive, 20-point technical documentation for all 28 fe
 
 ---
 
-### Feature 4: Agriculture Expert Accounts
-1. **Purpose:** Enables certified agronomists and extension researchers to provide authoritative answers to farmer consultation tickets.
-2. **Problem Addressed:** Eliminates bad agronomic advice by connecting farmers with credentialed scientists.
-3. **Target User & Role:** `AGRICULTURE_EXPERT`.
-4. **Frontend Placement:** `/portal/expert` (routes declared in `AppRoutes.jsx`).
-5. **User Inputs:** Specialization, years of experience, qualifications, advice responses.
-6. **Output Displayed:** Assigned consultation tickets, uploaded farmer leaf pathology photos.
-7. **Frontend Source Files:** `client/src/routes/AppRoutes.jsx`.
-8. **Backend API Endpoints:** `GET /api/v1/consultations`, `POST /api/v1/consultations/:id/reply`.
-9. **Controllers & Services:** `consultations.controller.js`, `consultations.service.js`.
-10. **Database Models Involved:** `User`, `ExpertProfile`, `Consultation`, `ConsultationMessage`.
+### Feature 4: Buyer Requirement Matching
+1. **Purpose:** Enables institutional and bulk buyers to specify crop commodity, target volume, and budget to find matching farmer listings.
+2. **Problem Addressed:** Eliminates manual searching through hundreds of listings by automating supply-demand matching.
+3. **Target User & Role:** `BUYER`.
+4. **Frontend Placement:** `/portal/buyer/match`.
+5. **User Inputs:** Crop selection, minimum quantity required (quintals), maximum acceptable price per quintal.
+6. **Output Displayed:** Ranked list of compatible farmer crop listings with price, quantity, location, and direct inquiry buttons.
+7. **Frontend Source Files:** `client/src/pages/buyer/BuyerMatchPage.jsx`.
+8. **Backend API Endpoints:** `POST /api/v1/marketplace/match`.
+9. **Controllers & Services:** `marketplace.controller.js`, `marketplace.service.js`.
+10. **Database Models Involved:** `CropListing`, `Crop`, `User`.
 11. **External APIs / Models:** None.
-12. **Internal Execution Flow:** Expert logs in -> Views open tickets in their specialization -> Submits prescription -> Notification dispatched to farmer.
-13. **Validation Rules:** Required specialization and qualification strings.
-14. **Error Handling:** 404 if ticket not found; 403 if user lacks expert role.
-15. **Auth Requirements:** Bearer JWT with `role === 'AGRICULTURE_EXPERT'`.
-16. **Dependencies:** Consultation module.
+12. **Internal Execution Flow:** Buyer specifies parameters -> Backend queries active listings (`status: 'ACTIVE'`) filtered by crop and price ceiling -> Returns ranked matches.
+13. **Validation Rules:** Quantity > 0; target price > 0.
+14. **Error Handling:** 400 Bad Request if parameters invalid; returns empty array if no matching listings found.
+15. **Auth Requirements:** Bearer JWT with `role === 'BUYER'`.
+16. **Dependencies:** Marketplace listing module.
 17. **Implementation Status:** **IMPLEMENTED AND VERIFIED**.
-18. **Test Evidence:** Prisma schema relation and controller route tests verified.
-19. **Known Limitations:** Automated state university credential verification API is not available in India; admin verifies manually.
-20. **Example Scenario:** Dr. Patil, an entomologist from MPKV Rahuri, reviews Ramesh's cotton pest submission and prescribes Emamectin Benzoate 5% SG.
+18. **Test Evidence:** Verified in `test_all_features.js` and `marketplace.routes.js`.
+19. **Known Limitations:** Geographical distance sorting is based on district match rather than dynamic GPS route calculation.
+20. **Example Scenario:** A grocery chain in Pune searches for 50 quintals of Grade-A Onions under Rs 2,200/quintal and receives 3 matching Nashik farmer listings.
 
 ---
 
-### Feature 5: Admin Operations & Console
-1. **Purpose:** Complete administrative visibility into platform users, farm holdings, transaction volumes, and audit logs.
-2. **Problem Addressed:** Operational governance, abuse detection, and compliance monitoring.
-3. **Target User & Role:** `ADMIN`.
-4. **Frontend Placement:** `/portal/admin`, `/portal/admin/users`, `/portal/admin/audit-logs`.
-5. **User Inputs:** Search queries, user status toggle commands (ACTIVE, SUSPENDED).
-6. **Output Displayed:** Metric summary cards (Total Users, Active Farms, Total Listings, System Health), audit log table.
-7. **Frontend Source Files:** `client/src/pages/admin/AdminDashboardPage.jsx`.
-8. **Backend API Endpoints:** `GET /api/v1/admin/stats`, `GET /api/v1/admin/users`, `GET /api/v1/admin/audit-logs`.
-9. **Controllers & Services:** `admin.controller.js`, `admin.service.js`.
-10. **Database Models Involved:** `User`, `AuditLog`, `Farm`, `Order`.
+### Feature 5: Harvest and Yield Logging
+1. **Purpose:** Records harvested produce volumes, harvest dates, and quality grades upon completion of a crop cycle.
+2. **Problem Addressed:** Replaces unrecorded harvest yields with structured digital inventory ready for farm analytics and marketplace listing.
+3. **Target User & Role:** `FARMER`.
+4. **Frontend Placement:** `/portal/farmer/crops`.
+5. **User Inputs:** Crop cycle ID, harvest date, quantity harvested (quintals), quality grade (A, B, C), storage location notes.
+6. **Output Displayed:** Harvest record confirmation, updated cumulative farm yield, and prompt to list produce on the marketplace.
+7. **Frontend Source Files:** `client/src/pages/farmer/CropsPage.jsx`.
+8. **Backend API Endpoints:** `POST /api/v1/crops/cycles/:id/harvests`.
+9. **Controllers & Services:** `crops.controller.js`, `crops.service.js`.
+10. **Database Models Involved:** `CropHarvest`, `CropCycle`, `Farm`.
 11. **External APIs / Models:** None.
-12. **Internal Execution Flow:** Admin makes request -> `checkRole(['ADMIN'])` confirms role -> Service executes aggregations (`prisma.user.count()`, `prisma.farm.count()`) -> Returns JSON summary.
-13. **Validation Rules:** Admin privilege check.
-14. **Error Handling:** 403 Forbidden for non-admin tokens.
-15. **Auth Requirements:** Bearer JWT with `role === 'ADMIN'`.
-16. **Dependencies:** Express RBAC middleware.
+12. **Internal Execution Flow:** Farmer submits harvest form -> Controller validates input -> Service records `CropHarvest` record and advances cycle status -> Returns confirmation.
+13. **Validation Rules:** Harvest quantity > 0; harvest date must not be in the future.
+14. **Error Handling:** 404 if crop cycle not found; 403 if crop cycle belongs to another farmer.
+15. **Auth Requirements:** Bearer JWT with `role === 'FARMER'`.
+16. **Dependencies:** Farm and crop cycle modules.
 17. **Implementation Status:** **IMPLEMENTED AND VERIFIED**.
-18. **Test Evidence:** Admin routes verified in `server/src/modules/admin/admin.routes.js`.
-19. **Known Limitations:** Bulk CSV data export from the admin dashboard is pending implementation.
-20. **Example Scenario:** An administrator reviews security audit logs to inspect failed login spikes and confirms database connectivity status.
+18. **Test Evidence:** Verified via Prisma schema relations and `crops.routes.js`.
+19. **Known Limitations:** Automated weighing bridge scale integration requires manual entry.
+20. **Example Scenario:** A farmer logs 140 quintals of harvested Soybean (Grade A) from Field 2, and the system prompts immediate marketplace listing.
 
 ---
 
@@ -882,34 +880,34 @@ This section provides exhaustive, 20-point technical documentation for all 28 fe
 
 ---
 
-### Feature 24: Expert Consultations (Ticketing Advisory)
-1. **Purpose:** Structured advisory system allowing farmers to submit technical inquiries to verified agricultural scientists.
-2. **Problem Addressed:** Provides reliable, peer-reviewed agronomic advice for complex field problems that require human expert judgment.
-3. **Target User & Role:** `FARMER`, `AGRICULTURE_EXPERT`.
-4. **Frontend Placement:** `/portal/farmer/assistant` (Raise Ticket tab).
-5. **User Inputs:** Subject category (Agronomy, Plant Pathology, Soil Science), description, urgency, optional leaf photos.
-6. **Output Displayed:** Ticket history thread, expert responses, timestamped message exchanges.
-7. **Frontend Source Files:** `client/src/pages/farmer/AssistantPage.jsx`.
-8. **Backend API Endpoints:** `GET /api/v1/consultations`, `POST /api/v1/consultations`, `POST /api/v1/consultations/:id/reply`.
-9. **Controllers & Services:** `consultations.controller.js`, `consultations.service.js`.
-10. **Database Models Involved:** `Consultation`, `ConsultationMessage`, `ExpertProfile`.
-11. **External APIs / Models:** None.
-12. **Internal Execution Flow:** Farmer raises ticket -> Ticket saved with status `OPEN` -> Assigned to expert or listed in expert queue -> Expert posts reply -> Status becomes `IN_PROGRESS` or `RESOLVED` -> In-app notification sent to farmer.
-13. **Validation Rules:** Subject and message content must be non-empty strings.
-14. **Error Handling:** 404 if consultation not found; 403 if unauthorized user attempts reply.
-15. **Auth Requirements:** Bearer JWT required.
-16. **Dependencies:** Consultations service.
+### Feature 24: Foliar Spraying Window Advisor
+1. **Purpose:** Calculates safe meteorological windows for pesticide and foliar fertilizer application based on real-time atmospheric conditions.
+2. **Problem Addressed:** Prevents chemical pesticide drift, operator toxicity, and rain wash-off losses caused by spraying during adverse weather.
+3. **Target User & Role:** `FARMER`, Public visitors.
+4. **Frontend Placement:** `/portal/farmer/weather`, `/advisory`.
+5. **User Inputs:** District selection or farm coordinate selection.
+6. **Output Displayed:** Hourly spray feasibility status (Optimal, Marginal, Unfavorable), wind velocity alerts, precipitation probability thresholds.
+7. **Frontend Source Files:** `client/src/pages/farmer/WeatherPage.jsx`, `client/src/pages/public/AgroIntelligencePage.jsx`.
+8. **Backend API Endpoints:** `GET /api/v1/weather/forecast`, `GET /api/v1/weather/farm/:farmId`.
+9. **Controllers & Services:** `weather.controller.js`, `weather.service.js`.
+10. **Database Models Involved:** `WeatherObservation`, `Farm`.
+11. **External APIs / Models:** Open-Meteo High-Resolution Forecast API (wind speed, rain probability, relative humidity).
+12. **Internal Execution Flow:** Weather service fetches hourly forecast -> Evaluates agronomic rules (wind < 15 km/h, precipitation probability < 30%, humidity 40-70%) -> Designates spray safety score per hour -> Frontend renders visual safety gauge.
+13. **Validation Rules:** Valid latitude and longitude coordinates within Indian territory.
+14. **Error Handling:** Fallback to district centroid coordinates if specific farm coordinates are omitted.
+15. **Auth Requirements:** None for public district forecast; Bearer JWT for farm-linked advisory.
+16. **Dependencies:** Open-Meteo forecast API.
 17. **Implementation Status:** **IMPLEMENTED AND VERIFIED**.
-18. **Test Evidence:** Prisma schema and controller routes verified.
-19. **Known Limitations:** Live real-time WebRTC video calls are planned for a future milestone; currently uses asynchronous message threads.
-20. **Example Scenario:** Ramesh submits a photo of mysterious yellowing sugarcane leaves; an agronomist diagnoses iron chlorosis caused by high soil calcarity and recommends ferrous sulfate foliar spray.
+18. **Test Evidence:** Verified in `test_all_features.js` (Cases 2 & 3 passed).
+19. **Known Limitations:** Micro-canopy humidity variations inside polyhouses require dedicated internal sensors.
+20. **Example Scenario:** A grape farmer in Nashik plans a fungicide spray for Downy Mildew; the platform indicates winds over 22 km/h until 4:00 PM and advises delaying application to 5:30 PM for zero drift.
 
 ---
 
 ### Feature 25: In-App Notification Dispatcher
 1. **Purpose:** Real-time event notifications for orders, weather hazard warnings, and crop reminders.
 2. **Problem Addressed:** Keeps farmers and buyers immediately informed about urgent operational events.
-3. **Target User & Role:** All authenticated roles (`FARMER`, `BUYER`, `AGRICULTURE_EXPERT`, `ADMIN`).
+3. **Target User & Role:** All authenticated platform users (`FARMER`, `BUYER`).
 4. **Frontend Placement:** Navbar notification bell dropdown across all portal views.
 5. **User Inputs:** Mark as read clicks.
 6. **Output Displayed:** Unread notification counter badge, chronological list of notification items with action links.
@@ -981,13 +979,13 @@ This section provides exhaustive, 20-point technical documentation for all 28 fe
 ### Feature 28: Reports and Dashboards
 1. **Purpose:** Executive role-tailored dashboards aggregating operations, market telemetry, and quick actions.
 2. **Problem Addressed:** Eliminates fragmented navigation by summarizing key information in a single screen.
-3. **Target User & Role:** All platform roles (`FARMER`, `BUYER`, `ADMIN`).
-4. **Frontend Placement:** `/portal/farmer`, `/portal/buyer`, `/portal/admin`.
+3. **Target User & Role:** `FARMER`, `BUYER`.
+4. **Frontend Placement:** `/portal/farmer`, `/portal/buyer`.
 5. **User Inputs:** Time-range selectors, navigation shortcuts.
 6. **Output Displayed:** High-contrast metric cards, recent activity feeds, quick-action navigation buttons.
-7. **Frontend Source Files:** `client/src/pages/farmer/FarmerDashboardPage.jsx`, `client/src/pages/buyer/BuyerDashboardPage.jsx`, `client/src/pages/admin/AdminDashboardPage.jsx`.
-8. **Backend API Endpoints:** `GET /api/v1/farms/dashboard`, `GET /api/v1/admin/stats`.
-9. **Controllers & Services:** `farms.controller.js`, `admin.controller.js`.
+7. **Frontend Source Files:** `client/src/pages/farmer/FarmerDashboardPage.jsx`, `client/src/pages/buyer/BuyerDashboardPage.jsx`.
+8. **Backend API Endpoints:** `GET /api/v1/farms/dashboard`, `GET /api/v1/analytics/financial`.
+9. **Controllers & Services:** `farms.controller.js`, `analytics.controller.js`.
 10. **Database Models Involved:** Multi-table aggregations (`Farm`, `CropCycle`, `Order`, `Expense`).
 11. **External APIs / Models:** None.
 12. **Internal Execution Flow:** User logs in -> Dashboard component mounts -> Issues parallel queries (`farms`, `weather`, `orders`, `expenses`) -> Renders structured cards.
@@ -1022,10 +1020,9 @@ For the comprehensive, line-by-line schema definition of every API endpoint, req
 12. **Expenses & Financials (`3` Endpoints):** `GET /api/v1/expenses`, `POST /api/v1/expenses`, `GET /api/v1/expenses/summary`.
 13. **Analytics & Simulations (`2` Endpoints):** `GET /api/v1/analytics/financial`, `POST /api/v1/analytics/simulate-scenario`.
 14. **Government Schemes (`2` Endpoints):** `GET /api/v1/schemes`, `GET /api/v1/schemes/:id`.
-15. **Expert Consultations (`3` Endpoints):** `GET /api/v1/consultations`, `POST /api/v1/consultations`, `POST /api/v1/consultations/:id/reply`.
+15. **Advisory & Inquiries (`2` Endpoints):** `GET /api/v1/consultations`, `POST /api/v1/consultations`.
 16. **Notifications (`2` Endpoints):** `GET /api/v1/notifications`, `PATCH /api/v1/notifications/:id/read`.
-17. **Administration (`3` Endpoints):** `GET /api/v1/admin/stats`, `GET /api/v1/admin/users`, `GET /api/v1/admin/audit-logs`.
-18. **FastAPI AI Microservice (`4` Endpoints):** `POST /api/v1/recommend-crop`, `POST /api/v1/analyze-disease`, `POST /api/v1/chat`, `GET /api/v1/ollama/status`.
+17. **FastAPI AI Microservice (`4` Endpoints):** `POST /api/v1/recommend-crop`, `POST /api/v1/analyze-disease`, `POST /api/v1/chat`, `GET /api/v1/ollama/status`.
 
 ---
 
@@ -1052,7 +1049,7 @@ For the comprehensive, line-by-line schema definition of every API endpoint, req
 The database schema defines **42 Models** and **15 Custom Enums**:
 
 #### Primary Enums (15):
-1. `UserRole` (`FARMER`, `BUYER`, `AGRICULTURE_EXPERT`, `ADMIN`)
+1. `UserRole` (`FARMER`, `BUYER`)
 2. `AccountStatus` (`ACTIVE`, `SUSPENDED`, `PENDING_VERIFICATION`, `DEACTIVATED`)
 3. `SoilType` (`ALLUVIAL`, `BLACK_COTTON`, `RED`, `LATERITE`, `SANDY`, `CLAYEY`, `LOAMY`, `SALINE`, `PEATY`, `OTHER`)
 4. `IrrigationType` (`DRIP`, `SPRINKLER`, `FLOOD`, `FURROW`, `CANAL`, `BOREWELL`, `RAINFED`, `OTHER`)
@@ -1139,7 +1136,7 @@ The database schema defines **42 Models** and **15 Custom Enums**:
 ### 11.1 Implemented Security Controls
 - **Password Security:** Salted bcrypt hashing using 12 computational rounds (`bcryptjs`). Plaintext passwords are never logged, stored, or returned.
 - **Stateless Authentication:** Industry-standard JSON Web Tokens (JWT) signed with HMAC-SHA256 and a 7-day expiration window.
-- **Role-Based Access Control (RBAC):** Strict middleware enforcement (`checkRole(['FARMER'])`, `checkRole(['BUYER'])`, `checkRole(['ADMIN'])`) preventing privilege escalation.
+- **Role-Based Access Control (RBAC):** Strict middleware enforcement (`authorizeRoles('FARMER')`, `authorizeRoles('BUYER')`) preventing privilege escalation.
 - **Resource Ownership Guards:** Service methods verify that requested assets (farms, fields, listings) match `req.user.id`, preventing Insecure Direct Object References (IDOR).
 - **Injection Protection:** Prisma ORM utilizes parameterized SQL queries across all operations, completely neutralizing SQL injection vectors.
 - **Rate Limiting:** Distinct rate-limiting tiers via `express-rate-limit`:
@@ -1315,7 +1312,7 @@ KrishiSetu is not merely a farm management software tool; it is a **comprehensiv
 5. **Q: How does KrishiSetu make money as a business?**  
    *A: Business models include buyer transaction success fees (1–2% on wholesale marketplace trades), premium enterprise agronomy analytics for corporate contract farming, and value-added financial services.*
 6. **Q: Are government schemes updated automatically?**  
-   *A: Schemes are managed in the database with state and central categorizations, allowing administrators to update subsidy allocations and application deadlines as policies evolve.*
+   *A: Schemes are managed in the database with state and central categorizations, allowing the platform catalog to update subsidy allocations and application deadlines as policies evolve.*
 7. **Q: Can a single farmer manage multiple disconnected plots of land?**  
    *A: Yes. The platform supports a one-to-many relationship: one user can register multiple farms, and each farm can be partitioned into distinct sub-plot fields.*
 8. **Q: How are user passwords and farm data protected?**  
@@ -1352,8 +1349,7 @@ krishisetu/
 │           ├── public/             # Landing, Marketplace, PublicSchemes, Advisory
 │           ├── auth/               # LoginPage, RegisterPage
 │           ├── farmer/             # Farms, Crops, AiCrop, Disease, Weather, Orders, Analytics
-│           ├── buyer/              # BuyerDashboardPage, BuyerMatchPage
-│           └── admin/              # AdminDashboardPage
+│           └── buyer/              # BuyerDashboardPage, BuyerMatchPage
 │
 ├── server/                         # Node.js 20+ Express REST API Gateway
 │   ├── package.json                # Backend dependencies

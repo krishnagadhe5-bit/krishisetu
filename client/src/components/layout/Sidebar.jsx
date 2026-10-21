@@ -16,8 +16,6 @@ import {
   TrendingUp,
   BotMessageSquare,
   FileText,
-  UserCheck,
-  ClipboardList,
 } from 'lucide-react';
 
 export const Sidebar = ({ isOpen, onClose }) => {
@@ -48,15 +46,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
     { label: t('shipmentsLogistics', 'Shipments & Logistics'), to: '/portal/buyer/shipments', icon: Truck },
   ];
 
-  const adminNav = [
-    { label: t('systemAnalytics', 'System Analytics'), to: '/portal/admin', icon: LayoutDashboard },
-    { label: t('userManagement', 'User Management'), to: '/portal/admin/users', icon: UserCheck },
-    { label: t('auditLogs', 'Audit Logs'), to: '/portal/admin/audit-logs', icon: ClipboardList },
-  ];
-
-  let navItems = farmerNav;
-  if (role === 'BUYER') navItems = buyerNav;
-  if (role === 'ADMIN') navItems = adminNav;
+  const navItems = role === 'BUYER' ? buyerNav : farmerNav;
 
   return (
     <>

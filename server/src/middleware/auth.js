@@ -21,7 +21,7 @@ export const authenticate = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'krishisetu_super_secret_jwt_key_2026_production_change');
       user = await prisma.user.findUnique({
         where: { id: decoded.userId },
-        include: { profile: true, expertProfile: true },
+        include: { profile: true },
       });
     } catch (jwtErr) {
       // Check if this is a Supabase Auth token
@@ -30,7 +30,7 @@ export const authenticate = async (req, res, next) => {
       if (supabaseUser && supabaseUser.email) {
         user = await prisma.user.findUnique({
           where: { email: supabaseUser.email },
-          include: { profile: true, expertProfile: true },
+          include: { profile: true },
         });
       }
     }
@@ -53,7 +53,6 @@ export const authenticate = async (req, res, next) => {
       role: user.role,
       accountStatus: user.accountStatus,
       profile: user.profile,
-      expertProfile: user.expertProfile,
     };
 
     next();

@@ -7,8 +7,8 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get('/farm/:farmId', authorizeRoles('FARMER', 'ADMIN'), AnalyticsController.getFinancials);
-router.post('/simulate', authorizeRoles('FARMER', 'ADMIN'), AnalyticsController.simulateScenario);
-router.get('/scenarios/:farmId', authorizeRoles('FARMER', 'ADMIN'), AnalyticsController.getScenarios);
+router.get('/farm/:farmId', authorizeRoles('FARMER'), AnalyticsController.getFinancials);
+router.post('/simulate', authorizeRoles('FARMER'), AnalyticsController.simulateScenario);
+router.get('/scenarios/:farmId', authorizeRoles('FARMER'), AnalyticsController.getScenarios);
 
 export default router;

@@ -7,7 +7,7 @@
 ---
 
 ## 1. Authentication & Users
-- `POST /auth/register` — Register a new account (`FARMER`, `BUYER`, `AGRICULTURE_EXPERT`).
+- `POST /auth/register` — Register a new account (`FARMER`, `BUYER`).
 - `POST /auth/login` — Authenticate credentials and receive JWT access token.
 - `GET /auth/me` — Retrieve current authenticated session and profile.
 - `PUT /users/profile` — Update address, district, state, phone, language preferences.
@@ -63,10 +63,9 @@
 - `GET /analytics/farm-pnl/:farmId` — Profit & Loss statement comparing harvest sales with input costs.
 - `POST /analytics/digital-twin/simulate` — What-if scenario analysis with rainfall, cost, and price variance modeling.
 
-## 10. Consultations, Schemes & Administration
-- `GET /consultations` — Active expert cases and farmer inquiries.
-- `POST /consultations` — Submit consultation question with crop and field linkage.
-- `POST /consultations/:id/messages` — Post expert advice or farmer follow-up.
+## 10. AI Assistant, Consultations & Schemes
+- `POST /ai/chat` — Source-grounded RAG agricultural assistant with citations.
+- `GET /consultations` — Active inquiries and farmer advisory cases.
+- `POST /consultations` — Submit advisory question with crop and field linkage.
 - `GET /schemes` — Verified government schemes (PM-KISAN, PMFBY, MahaDBT, Sub-Mission on Seeds).
-- `GET /admin/users` — Account management and expert credential verification (Admin only).
-- `GET /admin/audit-logs` — Security and platform transaction audit trail (Admin only).
+- `GET /schemes/:id` — Detailed guidelines, subsidy percentage, and official portal URL.

@@ -53,9 +53,8 @@ erDiagram
 ## 3. Core Models & Business Roles
 
 ### A. User Management & Security
-- **User:** Central identity entity with email, hashed password (`bcrypt`), phone number, role (`FARMER`, `BUYER`, `AGRICULTURE_EXPERT`, `ADMIN`), and account status (`ACTIVE`, `SUSPENDED`, `PENDING_VERIFICATION`, `DEACTIVATED`).
+- **User:** Central identity entity with email, hashed password (`bcrypt`), phone number, role (`FARMER`, `BUYER`), and account status (`ACTIVE`, `SUSPENDED`, `PENDING_VERIFICATION`, `DEACTIVATED`).
 - **UserProfile:** Extended farmer/buyer details including avatar, bio, preferred language, state, district, pin code.
-- **ExpertProfile:** Specialization, qualification, registration number, verification status, years of experience.
 
 ### B. Farm & Crop Management
 - **Farm:** Farm holdings with coordinates, total acreage, soil type, primary irrigation method, and water source.

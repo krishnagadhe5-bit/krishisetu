@@ -7,6 +7,6 @@ const router = Router();
 
 router.get('/', SchemesController.getSchemes);
 router.get('/:id', SchemesController.getSchemeById);
-router.post('/', authenticate, authorizeRoles('ADMIN'), SchemesController.createScheme);
+router.post('/', authenticate, SchemesController.createScheme);
 
 export default router;

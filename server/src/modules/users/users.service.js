@@ -40,7 +40,6 @@ export class UsersService {
         accountStatus: true,
         createdAt: true,
         profile: true,
-        expertProfile: true,
       },
     });
   }

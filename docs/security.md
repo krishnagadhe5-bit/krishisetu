@@ -13,10 +13,8 @@ Client-side conditional rendering is treated strictly as UX enhancement. The Nod
 
 | Role | Access Scope |
 | :--- | :--- |
-| **`FARMER`** | Manage owned farms, fields, crop cycles, harvests, expenses; upload crop scans; post marketplace listings; accept buyer inquiries; request expert consultations. Cannot approve expert credentials or moderate global listings. |
+| **`FARMER`** | Manage owned farms, fields, crop cycles, harvests, expenses; upload crop scans for AI diagnosis; post marketplace listings; accept buyer inquiries; access AI assistant; browse government schemes. |
 | **`BUYER`** | Search produce catalog; submit purchase orders; view assigned shipments; run requirement compatibility matchmaker. Cannot access farmer expense ledgers or private farm fields. |
-| **`AGRICULTURE_EXPERT`** | Review escalated plant pathology cases; provide authoritative recommendations; track consultation history. Verification required before expert badge is awarded. |
-| **`ADMIN`** | Platform user management, expert credential verification, global audit logs, system-wide analytics, government scheme administration. |
 
 ---
 

@@ -5,17 +5,13 @@ export const registerSchema = z.object({
     email: z.string().email('Invalid email address'),
     password: z.string().min(8, 'Password must be at least 8 characters long'),
     fullName: z.string().min(2, 'Full name is required'),
-    role: z.enum(['FARMER', 'BUYER', 'AGRICULTURE_EXPERT'], {
-      errorMap: () => ({ message: 'Role must be FARMER, BUYER, or AGRICULTURE_EXPERT' }),
+    role: z.enum(['FARMER', 'BUYER'], {
+      errorMap: () => ({ message: 'Role must be FARMER or BUYER' }),
     }),
     phone: z.string().optional(),
     state: z.string().optional().default('Maharashtra'),
     district: z.string().optional(),
     preferredLang: z.string().optional().default('en'),
-    // Optional expert fields
-    specialization: z.string().optional(),
-    qualifications: z.string().optional(),
-    experienceYears: z.number().int().optional(),
   }),
 });
 

@@ -27,7 +27,6 @@ import analyticsRoutes from './modules/analytics/analytics.routes.js';
 import consultationsRoutes from './modules/consultations/consultations.routes.js';
 import schemesRoutes from './modules/schemes/schemes.routes.js';
 import notificationsRoutes from './modules/notifications/notifications.routes.js';
-import adminRoutes from './modules/admin/admin.routes.js';
 
 const app = express();
 
@@ -135,7 +134,6 @@ app.use('/api/v1/analytics', analyticsRoutes);
 app.use('/api/v1/consultations', consultationsRoutes);
 app.use('/api/v1/schemes', schemesRoutes);
 app.use('/api/v1/notifications', notificationsRoutes);
-app.use('/api/v1/admin', adminRoutes);
 
 // 404 handler
 app.use((req, res) => {

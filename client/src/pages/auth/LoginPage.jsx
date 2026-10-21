@@ -72,7 +72,6 @@ export const LoginPage = () => {
       // Strictly enforce role-based authorization navigation
       if (user.role === 'FARMER') navigate('/portal/farmer');
       else if (user.role === 'BUYER') navigate('/portal/buyer');
-      else if (user.role === 'ADMIN') navigate('/portal/admin');
       else navigate('/');
     } catch (err) {
       const nextFailures = failedAttempts + 1;

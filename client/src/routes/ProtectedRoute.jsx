@@ -27,7 +27,6 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
     const roleHomes = {
       FARMER: '/portal/farmer',
       BUYER: '/portal/buyer',
-      ADMIN: '/portal/admin',
     };
     return <Navigate to={roleHomes[user?.role] || '/login'} replace />;
   }

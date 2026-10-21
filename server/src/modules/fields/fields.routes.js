@@ -7,9 +7,9 @@ const router = Router();
 
 router.use(authenticate);
 
-router.post('/', authorizeRoles('FARMER', 'ADMIN'), FieldsController.createField);
-router.get('/farm/:farmId', authorizeRoles('FARMER', 'ADMIN', 'AGRICULTURE_EXPERT'), FieldsController.getFieldsByFarm);
-router.get('/:id', authorizeRoles('FARMER', 'ADMIN', 'AGRICULTURE_EXPERT'), FieldsController.getFieldById);
-router.post('/:id/soil-tests', authorizeRoles('FARMER', 'ADMIN'), FieldsController.addSoilTest);
+router.post('/', authorizeRoles('FARMER'), FieldsController.createField);
+router.get('/farm/:farmId', authorizeRoles('FARMER'), FieldsController.getFieldsByFarm);
+router.get('/:id', authorizeRoles('FARMER'), FieldsController.getFieldById);
+router.post('/:id/soil-tests', authorizeRoles('FARMER'), FieldsController.addSoilTest);
 
 export default router;

@@ -13,9 +13,9 @@ router.get('/:id', MarketplaceController.getListingById);
 // Protected routes
 router.use(authenticate);
 
-router.post('/', authorizeRoles('FARMER', 'ADMIN'), MarketplaceController.createListing);
-router.patch('/:id', authorizeRoles('FARMER', 'ADMIN'), MarketplaceController.updateListing);
-router.post('/match', authorizeRoles('BUYER', 'ADMIN'), MarketplaceController.matchRequirements);
-router.post('/:id/inquiries', authorizeRoles('BUYER', 'ADMIN'), MarketplaceController.sendInquiry);
+router.post('/', authorizeRoles('FARMER'), MarketplaceController.createListing);
+router.patch('/:id', authorizeRoles('FARMER'), MarketplaceController.updateListing);
+router.post('/match', authorizeRoles('BUYER'), MarketplaceController.matchRequirements);
+router.post('/:id/inquiries', authorizeRoles('BUYER'), MarketplaceController.sendInquiry);
 
 export default router;

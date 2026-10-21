@@ -66,10 +66,8 @@ KrishiSetu follows a decoupled 3-tier architecture with strict separation of con
 
 ## 👥 User Roles & Personas
 
-- **Farmer (`FARMER`):** Full farm management, AI crop recommendations, weather forecasting, harvest logging, expense tracking, and crop listing.
-- **Buyer (`BUYER`):** Marketplace browsing, commodity price filtering, direct order placement, and requirement matching.
-- **Agricultural Expert (`AGRICULTURE_EXPERT`):** Reviews farmer consultation tickets and provides certified agronomic advice.
-- **Administrator (`ADMIN`):** Real-time platform metrics, user access controls, and security audit logs.
+- **Farmer (`FARMER`):** Farm management, field & soil testing tracking, crop cycle tracking, AI crop & disease diagnosis, weather alerts, financial analytics, government scheme lookup, and direct produce listing.
+- **Buyer (`BUYER`):** Real-time agricultural marketplace browsing, crop search & filtering, direct order placement, requirement matching, and purchase management.
 
 ---
 

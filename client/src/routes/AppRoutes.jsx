@@ -31,9 +31,6 @@ import { SchemesPage } from '../pages/farmer/SchemesPage';
 import { BuyerDashboardPage } from '../pages/buyer/BuyerDashboardPage';
 import { BuyerMatchPage } from '../pages/buyer/BuyerMatchPage';
 
-// Admin Pages
-import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
-
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -194,31 +191,6 @@ export const AppRoutes = () => {
           }
         />
 
-        {/* Admin Domain */}
-        <Route
-          path="admin"
-          element={
-            <ProtectedRoute allowedRoles={['ADMIN']}>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="admin/users"
-          element={
-            <ProtectedRoute allowedRoles={['ADMIN']}>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="admin/audit-logs"
-          element={
-            <ProtectedRoute allowedRoles={['ADMIN']}>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
       </Route>
 
       {/* Fallback to Home */}
